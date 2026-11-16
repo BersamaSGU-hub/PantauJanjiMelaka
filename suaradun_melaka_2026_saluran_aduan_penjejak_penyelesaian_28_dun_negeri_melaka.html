@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuaraDUN Melaka 2026 — Saluran Aduan &amp; Penjejak Penyelesaian 28 DUN Negeri Melaka</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            melaka: {
+              royal: '#0F2B5B',
+              red: '#CE1126',
+              gold: '#F59E0B',
+              paper: '#F8FAFC'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F8FAFC;
+      color: #0F172A;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1F5F9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.85); opacity: 0.95; }
+      75% { transform: scale(2.1); opacity: 0; }
+      100% { transform: scale(2.1); opacity: 0; }
+    }
+    .live-pulse-ring {
+      animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#0F2B5B] selection:text-white">
+
+  <!-- Toast Notification Container (No alert() or confirm()) -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- ===================================================================== -->
+  <!-- TOP OFFICIAL MASTHEAD (MELAKA ROYAL BLUE, RED & GOLD THEME)           -->
+  <!-- ===================================================================== -->
+  <header class="bg-[#0F2B5B] text-white border-b-4 border-[#CE1126] sticky top-0 z-30 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between py-3.5 gap-3">
+        <!-- Left: Official Identity -->
+        <div class="flex items-start sm:items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#CE1126] to-red-800 flex items-center justify-center shrink-0 shadow-md border-2 border-[#F59E0B]">
+            <i class="fa-solid fa-bullhorn text-white text-xl"></i>
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h1 class="text-lg sm:text-xl font-black tracking-tight text-white">SuaraDUN Melaka 2026</h1>
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-[#F59E0B] text-[#0F2B5B] tracking-wide uppercase">
+                <i class="fa-solid fa-shield-halved text-[10px]"></i>
+                <span>HAB ADUAN 28 DUN</span>
+              </span>
+            </div>
+            <p class="text-xs text-blue-100 mt-0.5">Saluran Aduan Rakyat Akar Umbi &amp; Penjejak Penyelesaian 28 ADUN Negeri Melaka (Mandat 2026–2031)</p>
+          </div>
+        </div>
+
+        <!-- Right: Live MYT Clock + Quick Action CTA -->
+        <div class="flex flex-wrap items-center gap-2.5">
+          <div class="bg-[#091D42] border border-blue-800/80 rounded-xl px-3.5 py-2 flex items-center gap-3">
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-[#F59E0B] flex items-center gap-1">
+                <i class="fa-regular fa-clock"></i>
+                <span>Waktu Rasmi Melaka (MYT)</span>
+              </div>
+              <div id="live-myt-clock" class="font-mono text-xs sm:text-sm font-extrabold text-white mt-0.5">
+                17 Nov 2026, 00:43:00 MYT
+              </div>
+            </div>
+            <div class="h-7 w-px bg-blue-800 hidden sm:block"></div>
+            <div class="hidden sm:block text-xs">
+              <div class="text-[10px] text-blue-200">Mandat PRN Ke-16</div>
+              <div class="font-bold text-emerald-300">24 BN-PN • 4 PH</div>
+            </div>
+          </div>
+
+          <button onclick="switchTab('intake')" class="bg-[#CE1126] hover:bg-red-700 active:bg-red-800 text-white border border-red-400/40 rounded-xl px-4 py-2.5 text-xs font-extrabold shadow-md transition flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Hantar Aduan Baharu</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Primary Navigation Tabs -->
+      <nav class="flex space-x-1 overflow-x-auto border-t border-blue-900/90 pt-1 -mb-px" aria-label="Navigasi Utama">
+        <button id="tab-btn-tracker" onclick="switchTab('tracker')" class="tab-btn whitespace-nowrap px-4 py-2.5 text-xs sm:text-sm font-extrabold border-b-4 border-[#F59E0B] text-white transition flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-ticket text-[#F59E0B]"></i>
+          <span>Penjejak Tiket &amp; Status Aduan</span>
+          <span id="nav-ticket-count" class="bg-blue-900 text-blue-100 text-xs px-2 py-0.5 rounded-full font-mono">14</span>
+        </button>
+
+        <button id="tab-btn-intake" onclick="switchTab('intake')" class="tab-btn whitespace-nowrap px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-4 border-transparent text-blue-200 hover:text-white hover:border-blue-400 transition flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-file-pen text-red-400"></i>
+          <span>Saluran Aduan Rakyat (SuaraDUN)</span>
+        </button>
+
+        <button id="tab-btn-aduns" onclick="switchTab('aduns')" class="tab-btn whitespace-nowrap px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-4 border-transparent text-blue-200 hover:text-white hover:border-blue-400 transition flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-users-rectangle text-emerald-400"></i>
+          <span>Prestasi &amp; Direktori 28 ADUN</span>
+          <span class="bg-blue-900 text-blue-100 text-xs px-2 py-0.5 rounded-full font-mono">28</span>
+        </button>
+
+        <button id="tab-btn-crawler" onclick="switchTab('crawler')" class="tab-btn whitespace-nowrap px-4 py-2.5 text-xs sm:text-sm font-semibold border-b-4 border-transparent text-blue-200 hover:text-white hover:border-blue-400 transition flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-satellite-dish text-amber-300"></i>
+          <span>Suapan Algoritma &amp; Berita Live</span>
+          <span id="nav-signal-count" class="bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs px-2 py-0.5 rounded-full font-mono">8</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- LIVE TELEMETRY & AUTONOMOUS SCHEDULED CONTROL BAR                     -->
+  <!-- ===================================================================== -->
+  <section class="bg-white border-b border-slate-200 shadow-2xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+        <!-- Left: Live Status Indicator & Cycle Counter -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div id="live-status-pill" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs font-extrabold tracking-wide">
+            <span class="relative flex h-2.5 w-2.5">
+              <span id="live-pulse-ring" class="live-pulse-ring absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span id="live-pulse-dot" class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+            </span>
+            <span id="live-status-text">ENJIN ALGORITMA &amp; TELEMETRI ADUAN: AKTIF</span>
+          </div>
+
+          <div class="text-xs text-slate-600 flex flex-wrap items-center gap-2">
+            <span><strong class="text-slate-800">Kemas Kini Terakhir:</strong> <span id="last-sync-time" class="font-mono text-slate-900">17 Nov 2026, 00:40 MYT</span></span>
+            <span id="sync-cycle-badge" class="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded font-mono text-[11px] font-bold">Kitaran #24</span>
+          </div>
+        </div>
+
+        <!-- Right: Countdown, Interval Selector, Auto-Sync Switch & Gemini Scan CTA -->
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Countdown Display -->
+          <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs">
+            <i class="fa-solid fa-hourglass-half text-[#0F2B5B]"></i>
+            <span class="text-slate-600 font-medium">Kemas Kini Seterusnya:</span>
+            <span id="countdown-timer" class="font-mono font-extrabold text-[#0F2B5B]">05:00</span>
+          </div>
+
+          <!-- Interval Dropdown -->
+          <select id="interval-select" onchange="changeAutoInterval(this.value)" aria-label="Selang Masa Kemas Kini Berjadual" class="bg-white border border-slate-300 text-slate-800 text-xs font-bold rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0F2B5B] cursor-pointer">
+            <option value="300" selected>Setiap 5 Minit</option>
+            <option value="900">Setiap 15 Minit</option>
+            <option value="3600">Setiap 1 Jam</option>
+            <option value="21600">Setiap 6 Jam</option>
+          </select>
+
+          <!-- Auto-Sync Toggle Switch -->
+          <button id="btn-autosync-toggle" onclick="toggleAutoSync()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border transition cursor-pointer bg-[#0F2B5B] text-white border-[#0F2B5B] hover:bg-blue-900" title="Hidup/Matikan Auto-Sync Berjadual">
+            <span id="autosync-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="autosync-label">Auto-Sync: ON</span>
+          </button>
+
+          <!-- Instant Live Gemini Search Grounding Scan -->
+          <button id="btn-live-scan" onclick="runLiveCrawlerScan(false)" class="inline-flex items-center gap-2 bg-[#CE1126] hover:bg-red-700 text-white text-xs font-extrabold px-3.5 py-2 rounded-lg shadow-xs transition cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+            <i id="live-scan-icon" class="fa-solid fa-radar"></i>
+            <span id="live-scan-text">Imbas Berita &amp; Aduan Tular Sekarang</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Scan Progress Bar -->
+      <div id="scan-progress-wrapper" class="hidden mt-3 pt-2.5 border-t border-slate-100">
+        <div class="flex items-center justify-between text-xs mb-1">
+          <span id="scan-stage-msg" class="font-bold text-[#0F2B5B] flex items-center gap-2">
+            <i class="fa-solid fa-circle-notch fa-spin text-[#CE1126]"></i>
+            <span>Menghubungkan ke Gemini AI &amp; Enjin Carian Google untuk berita serta aduan rakyat terkini di Melaka...</span>
+          </span>
+          <span id="scan-stage-pct" class="font-mono font-extrabold text-[#CE1126]">30%</span>
+        </div>
+        <div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+          <div id="scan-stage-bar" class="bg-gradient-to-r from-[#0F2B5B] via-[#CE1126] to-[#F59E0B] h-1.5 rounded-full transition-all duration-500" style="width: 30%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN CONTENT AREA                                                     -->
+  <!-- ===================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- EXECUTIVE KPI DASHBOARD ROW (4 CARDS) -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- KPI 1: Jumlah Aduan Diterima -->
+      <div class="bg-white border border-slate-200 border-t-4 border-t-[#0F2B5B] rounded-xl p-4 shadow-2xs">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Jumlah Aduan (28 DUN)</span>
+          <span class="w-9 h-9 rounded-lg bg-blue-50 text-[#0F2B5B] flex items-center justify-center"><i class="fa-solid fa-inbox"></i></span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="kpi-total-complaints" class="text-2xl sm:text-3xl font-black text-slate-900">1,428</span>
+          <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">+14 Hari Ini</span>
+        </div>
+        <p class="mt-2 text-[11px] text-slate-500">Merangkumi Portal SuaraDUN, JAPERUN, WRUR &amp; Media Sosial.</p>
+      </div>
+
+      <!-- KPI 2: Kadar Penyelesaian -->
+      <div class="bg-white border border-slate-200 border-t-4 border-t-emerald-600 rounded-xl p-4 shadow-2xs">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Kadar Penyelesaian</span>
+          <span class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center"><i class="fa-solid fa-circle-check"></i></span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="kpi-resolution-rate" class="text-2xl sm:text-3xl font-black text-emerald-700">78.4%</span>
+          <span id="kpi-resolved-count" class="text-xs font-semibold text-slate-600">(1,120 Selesai)</span>
+        </div>
+        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mt-2.5">
+          <div id="kpi-resolution-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-500" style="width: 78.4%"></div>
+        </div>
+      </div>
+
+      <!-- KPI 3: Purata Masa Respons -->
+      <div class="bg-white border border-slate-200 border-t-4 border-t-[#F59E0B] rounded-xl p-4 shadow-2xs">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Purata Masa Respons</span>
+          <span class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center"><i class="fa-solid fa-bolt"></i></span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span class="text-2xl sm:text-3xl font-black text-slate-900">14.2 Jam</span>
+          <span class="text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">SLA &lt; 24 Jam</span>
+        </div>
+        <p class="mt-2 text-[11px] text-slate-500">Tindakan awal JAPERUN, MBMB, MPHTJ, MPAG &amp; MPJ.</p>
+      </div>
+
+      <!-- KPI 4: Isu Tular Dikesan Algoritma -->
+      <div class="bg-white border border-slate-200 border-t-4 border-t-[#CE1126] rounded-xl p-4 shadow-2xs">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Isu Tular Dikesan AI</span>
+          <span class="w-9 h-9 rounded-lg bg-red-50 text-[#CE1126] flex items-center justify-center"><i class="fa-solid fa-fire-flame-curved"></i></span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="kpi-viral-count" class="text-2xl sm:text-3xl font-black text-[#CE1126]">9 Isu</span>
+          <span class="text-xs font-semibold text-slate-600">Dipantau Langsung</span>
+        </div>
+        <p class="mt-2 text-[11px] text-slate-500">Imbasan sentimen TikTok, Facebook, X &amp; portal berita tempatan.</p>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 1: PENJEJAK TIKET & STATUS ADUAN 28 DUN                           -->
+    <!-- ===================================================================== -->
+    <div id="view-tracker" class="space-y-5">
+
+      <!-- Quick Intake Banner CTA -->
+      <div class="bg-gradient-to-r from-[#0F2B5B] via-[#173B7A] to-[#0F2B5B] text-white rounded-2xl p-5 shadow-sm border border-blue-900 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-start sm:items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-[#F59E0B] text-[#0F2B5B] flex items-center justify-center shrink-0 text-lg font-black shadow-sm">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+          </div>
+          <div>
+            <h2 class="text-base sm:text-lg font-extrabold tracking-tight">Ada Masalah Infrastruktur, Banjir, Kebajikan atau Utiliti di Kawasan Anda?</h2>
+            <p class="text-xs text-blue-100 mt-0.5">Salurkan terus kepada Wakil Rakyat (ADUN) &amp; JAPERUN di kesemua 28 DUN Melaka dan pantau status penyelesaian secara telus.</p>
+          </div>
+        </div>
+        <button onclick="switchTab('intake')" class="bg-[#F59E0B] hover:bg-amber-400 text-[#0F2B5B] font-black text-xs sm:text-sm px-5 py-3 rounded-xl shadow-md transition shrink-0 flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-plus-circle"></i>
+          <span>Buat Aduan Sekarang</span>
+        </button>
+      </div>
+
+      <!-- Search & Multi-Dimensional Filters -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-2xs space-y-3">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+          <!-- Ticket / Keyword Search -->
+          <div class="md:col-span-4 relative">
+            <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 text-xs"></i>
+            <input id="ticket-search-input" type="text" oninput="renderTicketsList()" placeholder="Semak No. Tiket (#MLK-N01...) atau kata kunci..." class="w-full pl-9 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B]" />
+          </div>
+
+          <!-- District Filter -->
+          <div class="md:col-span-2">
+            <select id="filter-district" onchange="renderTicketsList()" aria-label="Tapis Daerah" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold rounded-xl px-3 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B] cursor-pointer">
+              <option value="ALL">Semua Daerah (3)</option>
+              <option value="Alor Gajah">Alor Gajah (N.01–N.10)</option>
+              <option value="Melaka Tengah">Melaka Tengah (N.11–N.23)</option>
+              <option value="Jasin">Jasin (N.24–N.28)</option>
+            </select>
+          </div>
+
+          <!-- DUN Filter -->
+          <div class="md:col-span-3">
+            <select id="filter-dun" onchange="renderTicketsList()" aria-label="Tapis Kawasan DUN" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold rounded-xl px-3 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B] cursor-pointer">
+              <option value="ALL">Semua Kawasan DUN (28)</option>
+            </select>
+          </div>
+
+          <!-- Category Filter -->
+          <div class="md:col-span-3">
+            <select id="filter-category" onchange="renderTicketsList()" aria-label="Tapis Kategori Aduan" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold rounded-xl px-3 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B] cursor-pointer">
+              <option value="ALL">Semua Kategori Aduan</option>
+              <option value="Infrastruktur & Jalan Raya">Infrastruktur &amp; Jalan Raya</option>
+              <option value="Banjir & Perparitan">Banjir &amp; Perparitan</option>
+              <option value="Kebajikan & Kos Sara Hidup (MeSRa/WRUR)">Kebajikan &amp; Kos Sara Hidup</option>
+              <option value="Utiliti (Air/Elektrik/Lampu Solar)">Utiliti (Air/Elektrik/Solar)</option>
+              <option value="Kesihatan & Kebersihan PBT">Kesihatan &amp; Kebersihan PBT</option>
+              <option value="Pendidikan & Belia/TVET">Pendidikan &amp; Belia/TVET</option>
+              <option value="Pelancongan & Ekonomi Kecil">Pelancongan &amp; Ekonomi Kecil</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Status Filter Pills -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100">
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="setTicketStatusFilter('ALL')" id="tstat-btn-ALL" class="tstat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#0F2B5B] text-white cursor-pointer">
+              Semua Status
+            </button>
+            <button onclick="setTicketStatusFilter('Selesai')" id="tstat-btn-Selesai" class="tstat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 cursor-pointer">
+              <i class="fa-solid fa-circle-check mr-1"></i>Selesai
+            </button>
+            <button onclick="setTicketStatusFilter('Dalam Tindakan JAPERUN/PBT')" id="tstat-btn-Dalam Tindakan JAPERUN/PBT" class="tstat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-100 cursor-pointer">
+              <i class="fa-solid fa-person-digging mr-1"></i>Dalam Tindakan JAPERUN/PBT
+            </button>
+            <button onclick="setTicketStatusFilter('Diterima / Baru')" id="tstat-btn-Diterima / Baru" class="tstat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 cursor-pointer">
+              <i class="fa-solid fa-envelope-open-text mr-1"></i>Diterima / Baru
+            </button>
+            <button onclick="setTicketStatusFilter('Tertangguh / Tular')" id="tstat-btn-Tertangguh / Tular" class="tstat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-red-50 text-[#CE1126] border border-red-200 hover:bg-red-100 cursor-pointer">
+              <i class="fa-solid fa-triangle-exclamation mr-1"></i>Tertangguh / Tular
+            </button>
+          </div>
+
+          <div id="ticket-filter-summary" class="text-xs text-slate-500 font-medium">
+            Memaparkan <strong class="text-slate-900">14</strong> tiket aduan semasa
+          </div>
+        </div>
+      </div>
+
+      <!-- Tickets Cards Grid -->
+      <div id="tickets-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
+      <!-- Empty Ticket State -->
+      <div id="tickets-empty-state" class="hidden bg-white border border-slate-200 rounded-xl p-10 text-center">
+        <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+          <i class="fa-solid fa-folder-open text-lg"></i>
+        </div>
+        <h3 class="text-base font-bold text-slate-900">Tiada rekod tiket aduan sepadan</h3>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1">Cuba ubah carian nombor tiket atau tetapkan semula penapis daerah, DUN dan status.</p>
+        <button onclick="resetTicketFilters()" class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-[#0F2B5B] text-white text-xs font-bold rounded-lg hover:bg-blue-900 transition cursor-pointer">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span>Tetapkan Semula Penapis</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 2: SALURAN ADUAN RAKYAT (SUARADUN INTAKE — GAYA SUARAN01)         -->
+    <!-- ===================================================================== -->
+    <div id="view-intake" class="hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Left 2 Columns: Interactive Complaint Submission Form -->
+        <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          <div class="bg-[#0F2B5B] text-white px-6 py-4 border-b-4 border-[#F59E0B]">
+            <div class="flex items-center gap-2 text-xs font-bold text-[#F59E0B] uppercase tracking-wider">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <span>Borang Rasmi Saluran Aduan Rakyat</span>
+            </div>
+            <h2 class="text-lg sm:text-xl font-black mt-0.5">Hantar Aduan Terus ke DUN &amp; JAPERUN Anda</h2>
+            <p class="text-xs text-blue-100 mt-1">Setiap aduan akan dijana nombor tiket rujukan unik dan disalurkan kepada pejabat ADUN serta pihak berkuasa tempatan (PBT) berkaitan.</p>
+          </div>
+
+          <form id="complaint-intake-form" onsubmit="handleComplaintSubmit(event)" class="p-6 space-y-5">
+            <!-- Row 1: Pilih DUN + Paparan Automatik ADUN -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="form-dun-select" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                  1. Pilih Kawasan DUN Melaka <span class="text-[#CE1126]">*</span>
+                </label>
+                <select id="form-dun-select" required onchange="onIntakeDunChange(this.value)" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm font-bold rounded-xl px-3.5 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B] cursor-pointer">
+                  <option value="">-- Sila Pilih Kawasan DUN (N.01 – N.28) --</option>
+                </select>
+              </div>
+
+              <!-- Auto-Populated ADUN Info Box -->
+              <div id="intake-adun-preview" class="bg-blue-50/80 border border-blue-200 rounded-xl p-3 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-[#0F2B5B] text-white flex items-center justify-center shrink-0">
+                  <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-[10px] font-extrabold uppercase text-blue-700">Wakil Rakyat (ADUN) Bertanggungjawab</div>
+                  <div id="preview-adun-name" class="text-xs sm:text-sm font-black text-slate-900 truncate">Sila pilih kawasan DUN di sebelah</div>
+                  <div id="preview-adun-meta" class="text-[11px] text-slate-600 truncate">Daerah &amp; Parti akan dipaparkan automatik</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2: Kategori & Tahap Keutamaan -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="form-category" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                  2. Kategori Aduan <span class="text-[#CE1126]">*</span>
+                </label>
+                <select id="form-category" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm font-semibold rounded-xl px-3.5 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B] cursor-pointer">
+                  <option value="Infrastruktur & Jalan Raya">Infrastruktur &amp; Jalan Raya (Jalan Berlubang / Bahu Jalan)</option>
+                  <option value="Banjir & Perparitan">Banjir &amp; Perparitan (Parit Tersumbat / Tebatan Banjir)</option>
+                  <option value="Kebajikan & Kos Sara Hidup (MeSRa/WRUR)">Kebajikan &amp; Kos Sara Hidup (MeSRa / WRUR / Bantuan)</option>
+                  <option value="Utiliti (Air/Elektrik/Lampu Solar)">Utiliti (Bekalan Air SAMB / Elektrik / Lampu Solar)</option>
+                  <option value="Kesihatan & Kebersihan PBT">Kesihatan &amp; Kebersihan PBT (Sampah / Pokok Tumbang)</option>
+                  <option value="Pendidikan & Belia/TVET">Pendidikan &amp; Belia / TVET / KAFA</option>
+                  <option value="Pelancongan & Ekonomi Kecil">Pelancongan &amp; Ekonomi Kecil / Penjaja</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="form-priority" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                  3. Tahap Keutamaan <span class="text-[#CE1126]">*</span>
+                </label>
+                <select id="form-priority" required class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm font-semibold rounded-xl px-3.5 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B] cursor-pointer">
+                  <option value="Biasa">Biasa (Tindakan Standard 3–5 Hari Bekerja)</option>
+                  <option value="Segera">Segera (Keutamaan Tindakan &lt; 24 Jam)</option>
+                  <option value="Kecemasan">Kecemasan (Risiko Keselamatan Awam / Banjir Kilat)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Row 3: Lokasi Spesifik & Saluran Sumber -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="form-location" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                  4. Lokasi Spesifik (Kampung / Taman / Jalan) <span class="text-[#CE1126]">*</span>
+                </label>
+                <input id="form-location" type="text" required placeholder="Cth: Jalan Utama Taman Seri Duyong 2 / Kg. Kuala Linggi" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl px-3.5 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B]" />
+              </div>
+
+              <div>
+                <label for="form-channel" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                  5. Saluran Sumber Laporan
+                </label>
+                <select id="form-channel" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm font-semibold rounded-xl px-3.5 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B] cursor-pointer">
+                  <option value="Portal SuaraDUN">Portal Rasmi SuaraDUN Melaka</option>
+                  <option value="WhatsApp JAPERUN">Talian WhatsApp JAPERUN DUN</option>
+                  <option value="TikTok/FB Tular">Laporan Media Sosial (TikTok / Facebook Tular)</option>
+                  <option value="Program WRUR/HEBAT">Kaunter Lapangan Program WRUR / HEBAT</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Row 4: Tajuk Aduan -->
+            <div>
+              <label for="form-title" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                6. Tajuk Ringkas Aduan <span class="text-[#CE1126]">*</span>
+              </label>
+              <input id="form-title" type="text" required placeholder="Cth: Lampu jalan solar padam dan parit monsun tersumbat berhampiran simpang utama" class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl px-3.5 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B]" />
+            </div>
+
+            <!-- Row 5: Huraian Lengkap -->
+            <div>
+              <label for="form-description" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">
+                7. Huraian Terperinci Masalah <span class="text-[#CE1126]">*</span>
+              </label>
+              <textarea id="form-description" rows="3" required placeholder="Nyatakan tempoh masalah berlaku, kesan kepada penduduk setempat, dan cadangan tindakan segera..." class="w-full bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl px-3.5 py-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B]"></textarea>
+            </div>
+
+            <!-- Row 6: Maklumat Pengadu (Pilihan Anonim) -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-slate-700">8. Maklumat Pengadu</span>
+                <label class="inline-flex items-center gap-2 text-xs font-bold text-[#0F2B5B] cursor-pointer">
+                  <input id="form-anonymous" type="checkbox" onchange="toggleAnonymousComplainant(this.checked)" class="rounded text-[#0F2B5B] focus:ring-[#0F2B5B] cursor-pointer" />
+                  <span>Hantar Sebagai Pengadu Anonim (Identiti Dirahsiakan)</span>
+                </label>
+              </div>
+              <div id="complainant-fields" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input id="form-reporter-name" type="text" placeholder="Nama Penuh Pengadu" class="w-full bg-white border border-slate-300 text-slate-900 text-xs sm:text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0F2B5B]" />
+                <input id="form-reporter-phone" type="text" placeholder="No. Telefon / WhatsApp (Untuk Makluman Status)" class="w-full bg-white border border-slate-300 text-slate-900 text-xs sm:text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0F2B5B]" />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+              <p class="text-[11px] text-slate-500">
+                <i class="fa-solid fa-lock text-emerald-600 mr-1"></i>Data aduan disimpan secara selamat dan terus dipaparkan dalam papan pemuka ketelusan awam.
+              </p>
+              <button type="submit" class="w-full sm:w-auto bg-[#CE1126] hover:bg-red-700 active:bg-red-800 text-white font-black text-sm px-6 py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Hantar Aduan &amp; Jana Tiket</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right 1 Column: Ticket Receipt Box + Guide -->
+        <div class="space-y-4">
+          <!-- Generated Ticket Receipt Card (Highlighted upon submission) -->
+          <div id="ticket-receipt-card" class="bg-white border-2 border-emerald-500 rounded-2xl p-5 shadow-md">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-700 uppercase">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Resit Tiket Terkini</span>
+              </span>
+              <span id="receipt-status-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900">Diterima / Baru</span>
+            </div>
+            <div class="text-center bg-slate-50 border border-slate-200 rounded-xl p-3 mb-3">
+              <div class="text-[10px] font-bold uppercase text-slate-500">Nombor Rujukan Tiket Rasmi</div>
+              <div id="receipt-ticket-id" class="font-mono text-lg font-black text-[#0F2B5B] mt-0.5">#MLK-N02-2026-014</div>
+            </div>
+            <div class="space-y-2 text-xs text-slate-700">
+              <div><strong class="text-slate-900">Kawasan DUN:</strong> <span id="receipt-dun">N.02 Tanjung Bidara</span></div>
+              <div><strong class="text-slate-900">ADUN Bertanggungjawab:</strong> <span id="receipt-adun">YAB Datuk Seri Dr. Ab Rauf Yusoh</span></div>
+              <div><strong class="text-slate-900">Tajuk Aduan:</strong> <span id="receipt-title">Penyelenggaraan parit monsun &amp; lampu solar</span></div>
+              <div><strong class="text-slate-900">Tarikh / Masa:</strong> <span id="receipt-time" class="font-mono">17 Nov 2026, 00:35 MYT</span></div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex gap-2">
+              <button onclick="copyLastReceiptTicket()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs py-2 rounded-lg transition cursor-pointer">
+                <i class="fa-regular fa-copy mr-1"></i>Salin No. Tiket
+              </button>
+              <button onclick="switchTab('tracker')" class="flex-1 bg-[#0F2B5B] hover:bg-blue-900 text-white font-bold text-xs py-2 rounded-lg transition cursor-pointer">
+                Lihat Dalam Senarai
+              </button>
+            </div>
+          </div>
+
+          <!-- SLA & Process Flow Guide -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-2xs space-y-3">
+            <h3 class="text-xs font-extrabold uppercase tracking-wider text-[#0F2B5B]">Aliran Tindakan Berstandard (SLA Melaka)</h3>
+            <ol class="space-y-2.5 text-xs text-slate-600">
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-[#0F2B5B] text-white font-mono font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                <div><strong class="text-slate-900">Diterima &amp; Diindeks AI:</strong> Tiket dijana serta-merta dan dipadankan dengan profil ADUN kawasan berkenaan.</div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-blue-600 text-white font-mono font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                <div><strong class="text-slate-900">Rujukan JAPERUN &amp; PBT:</strong> Disalurkan kepada JAPERUN DUN serta MBMB, MPHTJ, MPAG, MPJ atau SAMB dalam tempoh &lt; 24 jam.</div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-[#F59E0B] text-[#0F2B5B] font-mono font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                <div><strong class="text-slate-900">Lawatan Tapak &amp; Kerja Baik Pulih:</strong> Kemas kini log bergambar/teknikal direkodkan dalam garis masa tiket.</div>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-emerald-600 text-white font-mono font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">4</span>
+                <div><strong class="text-slate-900">Selesai &amp; Penilaian Rakyat:</strong> Tiket ditutup selepas pengesahan penyelesaian dan rating kepuasan komuniti.</div>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 3: PRESTASI & DIREKTORI 28 ADUN + CARTA ANALITIK CHART.JS         -->
+    <!-- ===================================================================== -->
+    <div id="view-aduns" class="hidden space-y-6">
+
+      <!-- Interactive Chart.js Analytics Row -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Bar Chart: Kadar Penyelesaian Aduan Mengikut Daerah & Blok DUN -->
+        <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-5 shadow-2xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div>
+              <h3 class="text-sm font-extrabold uppercase tracking-wider text-slate-900">Kadar Penyelesaian &amp; Beban Aduan Mengikut Daerah Melaka</h3>
+              <p class="text-xs text-slate-500">Perbandingan aduan selesai vs aktif merentas Alor Gajah, Melaka Tengah &amp; Jasin</p>
+            </div>
+          </div>
+          <div class="h-64 relative">
+            <canvas id="chart-dun-resolution"></canvas>
+          </div>
+        </div>
+
+        <!-- Donut Chart: Pecahan Aduan Mengikut Kategori Utama -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-2xs">
+          <h3 class="text-sm font-extrabold uppercase tracking-wider text-slate-900">Pecahan Aduan Mengikut Kategori</h3>
+          <p class="text-xs text-slate-500 mb-3">Taburan isu rakyat yang direkodkan algoritma &amp; portal</p>
+          <div class="h-64 relative">
+            <canvas id="chart-category-donut"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 28 ADUN Directory Filter Bar -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="relative flex-1">
+          <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 text-xs"></i>
+          <input id="adun-dir-search" type="text" oninput="renderAdunDirectory()" placeholder="Cari nama ADUN atau kawasan DUN (N.01 – N.28)..." class="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0F2B5B]" />
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <button onclick="setAdunDistrictFilter('ALL')" id="adir-dist-ALL" class="adir-dist-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#0F2B5B] text-white cursor-pointer">Semua (28)</button>
+          <button onclick="setAdunDistrictFilter('Alor Gajah')" id="adir-dist-Alor Gajah" class="adir-dist-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">Alor Gajah (10)</button>
+          <button onclick="setAdunDistrictFilter('Melaka Tengah')" id="adir-dist-Melaka Tengah" class="adir-dist-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">Melaka Tengah (13)</button>
+          <button onclick="setAdunDistrictFilter('Jasin')" id="adir-dist-Jasin" class="adir-dist-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">Jasin (5)</button>
+        </div>
+      </div>
+
+      <!-- 28 ADUN Cards Grid -->
+      <div id="adun-directory-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 4: SUAPAN ALGORITMA DIGITAL & BERITA BERKALA (AUTONOMOUS FEED)    -->
+    <!-- ===================================================================== -->
+    <div id="view-crawler" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Left 2 Cols: Autonomous Social & News Crawler Stream -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="text-base font-extrabold text-slate-900">Suapan Pengesanan Isu Rakyat &amp; Berita Tempatan Melaka</h3>
+              <p class="text-xs text-slate-500">Dipantau secara automatik daripada Melaka Hari Ini, Astro Awani, Buletin TV3, TikTok Aduan Melaka, Facebook &amp; WRUR</p>
+            </div>
+            <button onclick="runLiveCrawlerScan(false)" class="inline-flex items-center gap-2 bg-[#CE1126] hover:bg-red-700 text-white text-xs font-extrabold px-3.5 py-2 rounded-lg transition cursor-pointer shrink-0">
+              <i class="fa-solid fa-satellite-dish"></i>
+              <span>Imbas Sumber Sekarang</span>
+            </button>
+          </div>
+
+          <div id="crawler-feed-list" class="space-y-3"></div>
+        </div>
+
+        <!-- Right 1 Col: Autonomous System Console & Network Coverage -->
+        <div class="space-y-4">
+          <div class="bg-[#0F172A] text-slate-200 border border-slate-800 rounded-2xl overflow-hidden shadow-md">
+            <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-xs font-mono font-bold text-white tracking-wide">KONSOL ALGORITMA AUTONOMOUS</span>
+              </div>
+              <span class="text-[11px] font-mono text-[#F59E0B]">LIVE</span>
+            </div>
+            <div id="autonomous-console-box" class="p-3.5 h-96 overflow-y-auto font-mono text-[11px] leading-relaxed space-y-2 text-slate-300"></div>
+          </div>
+
+          <!-- Network Sources Status Card -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2.5">
+            <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-800">Rangkaian Sumber Dipantau Berkala</h4>
+            <div class="space-y-2 text-xs">
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200/80">
+                <span class="font-semibold text-slate-800"><i class="fa-solid fa-newspaper text-[#0F2B5B] mr-1.5"></i>Melaka Hari Ini &amp; Bernama</span>
+                <span class="text-[11px] font-bold text-emerald-700">Aktif</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200/80">
+                <span class="font-semibold text-slate-800"><i class="fa-solid fa-tv text-[#CE1126] mr-1.5"></i>Astro Awani &amp; Buletin TV3</span>
+                <span class="text-[11px] font-bold text-emerald-700">Aktif</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200/80">
+                <span class="font-semibold text-slate-800"><i class="fa-brands fa-tiktok text-slate-900 mr-1.5"></i>TikTok Aduan Melaka &amp; FB DUN</span>
+                <span class="text-[11px] font-bold text-emerald-700">Aktif</span>
+              </div>
+              <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-200/80">
+                <span class="font-semibold text-slate-800"><i class="fa-solid fa-people-group text-amber-600 mr-1.5"></i>Program WRUR / HEBAT JAPERUN</span>
+                <span class="text-[11px] font-bold text-emerald-700">Aktif</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <div>
+        <strong class="text-[#0F2B5B]">SuaraDUN Melaka 2026</strong> — Saluran Aduan Rakyat &amp; Penjejak Penyelesaian 28 DUN Negeri Melaka.
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <span>PRN Melaka Ke-16 (14 Nov 2026)</span>
+        <span>•</span>
+        <span>24 Kerajaan (BN-PN) | 4 Pembangkang (PH)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- TICKET DETAIL & AUDIT ACTION LOG MODAL                                -->
+  <!-- ===================================================================== -->
+  <div id="ticket-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="tmodal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-slate-900/65 backdrop-blur-xs transition-opacity" onclick="closeTicketModal()"></div>
+
+    <div class="flex min-h-full items-center justify-center p-3 sm:p-6">
+      <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-6">
+        <div class="h-2.5 w-full bg-gradient-to-r from-[#0F2B5B] via-[#CE1126] to-[#F59E0B]"></div>
+
+        <!-- Header -->
+        <div class="px-5 sm:px-6 pt-5 pb-4 border-b border-slate-200 flex items-start justify-between gap-4">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+              <span id="tmodal-id" class="font-mono text-xs font-extrabold px-2.5 py-0.5 rounded bg-[#0F2B5B] text-white">#MLK-N01-2026-001</span>
+              <span id="tmodal-status" class="px-2.5 py-0.5 rounded-full text-xs font-bold">Selesai</span>
+              <span id="tmodal-priority" class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700">Segera</span>
+            </div>
+            <h3 id="tmodal-title" class="text-base sm:text-lg font-black text-slate-900 leading-snug">Tajuk Aduan</h3>
+          </div>
+          <button onclick="closeTicketModal()" class="p-2 rounded-xl text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition cursor-pointer" aria-label="Tutup">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="px-5 sm:px-6 py-5 space-y-5 max-h-[75vh] overflow-y-auto">
+          <!-- Metadata Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs">
+            <div><span class="text-slate-500">Kawasan DUN:</span> <strong id="tmodal-dun" class="text-slate-900">N.01 Kuala Linggi</strong></div>
+            <div><span class="text-slate-500">ADUN Bertanggungjawab:</span> <strong id="tmodal-adun" class="text-[#0F2B5B]">Datuk Rosli Abdullah</strong></div>
+            <div><span class="text-slate-500">Kategori:</span> <strong id="tmodal-cat" class="text-slate-800">Infrastruktur</strong></div>
+            <div><span class="text-slate-500">Saluran Sumber:</span> <strong id="tmodal-channel" class="text-slate-800">Portal SuaraDUN</strong></div>
+            <div class="sm:col-span-2"><span class="text-slate-500">Lokasi Spesifik:</span> <strong id="tmodal-loc" class="text-slate-900">Lokasi</strong></div>
+            <div class="sm:col-span-2"><span class="text-slate-500">Pengadu:</span> <strong id="tmodal-reporter" class="text-slate-800">Penduduk Setempat</strong></div>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <div class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-1">Huraian Aduan Rakyat</div>
+            <p id="tmodal-desc" class="text-xs sm:text-sm text-slate-700 leading-relaxed bg-white border border-slate-200 rounded-xl p-3.5"></p>
+          </div>
+
+          <!-- Citizen Satisfaction Rating (Shown when Selesai or interactive) -->
+          <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div>
+              <div class="font-extrabold text-amber-950">Penilaian Kepuasan Rakyat (Komuniti DUN)</div>
+              <div class="text-amber-800 text-[11px]">Skor kepuasan terhadap tindakan JAPERUN &amp; PBT</div>
+            </div>
+            <div id="tmodal-rating-stars" class="flex items-center gap-1 text-base text-[#F59E0B]"></div>
+          </div>
+
+          <!-- Real-Time Audit Action Log Update Form -->
+          <div class="bg-blue-50/60 border border-blue-200 rounded-xl p-4 space-y-3">
+            <div class="text-xs font-extrabold uppercase tracking-wider text-[#0F2B5B]">
+              <i class="fa-solid fa-clipboard-check mr-1"></i>Kemas Kini Status / Tambah Log Tindakan (Simulasi Audit)
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <select id="tmodal-new-status" class="bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0F2B5B] cursor-pointer">
+                <option value="Diterima / Baru">Diterima / Baru</option>
+                <option value="Dalam Tindakan JAPERUN/PBT">Dalam Tindakan JAPERUN/PBT</option>
+                <option value="Tertangguh / Tular">Tertangguh / Tular</option>
+                <option value="Selesai">Selesai</option>
+              </select>
+              <input id="tmodal-action-note" type="text" placeholder="Catatan tindakan / lawatan tapak..." class="sm:col-span-2 bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0F2B5B]" />
+            </div>
+            <div class="flex justify-end">
+              <button onclick="submitTicketAuditUpdate()" class="bg-[#0F2B5B] hover:bg-blue-900 text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
+                Simpan Rekod Tindakan
+              </button>
+            </div>
+          </div>
+
+          <!-- Chronological Action Timeline -->
+          <div>
+            <div class="text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2.5">Garis Masa Tindakan &amp; Penyelesaian</div>
+            <div id="tmodal-timeline" class="relative border-l-2 border-slate-200 ml-2.5 space-y-3 pb-1"></div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="px-5 sm:px-6 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
+          <button onclick="copyModalTicketInfo()" class="text-xs font-bold text-slate-700 hover:text-slate-900 bg-white border border-slate-300 px-3 py-1.5 rounded-lg transition cursor-pointer">
+            <i class="fa-regular fa-copy mr-1"></i>Salin Butiran Tiket
+          </button>
+          <button onclick="closeTicketModal()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT DATA, 28 ADUN DIRECTORY, STORAGE & AUTONOMOUS ENGINE       -->
+  <!-- ===================================================================== -->
+  <script>
+    // -------------------------------------------------------------------------
+    // 1. COMPLETE 28 DUN & ADUN DATABASE (PRN MELAKA KE-16 — 14 NOV 2026)
+    //    24 Kerajaan (BN-PN): 21 BN, 3 PN (N.13 Paya Rumput, N.17 Bukit Katil, N.24 Bemban)
+    //    4 Pembangkang (PH): N.16 Ayer Keroh, N.19 Kesidang, N.20 Kota Laksamana, N.21 Bandar Hilir
+    // -------------------------------------------------------------------------
+    const dunDirectory = [
+      { code: "N.01", dun: "Kuala Linggi", district: "Alor Gajah", adun: "Datuk Rosli Abdullah", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPAG", baseTotal: 48, baseResolved: 39, respHours: 12.5, score: 86 },
+      { code: "N.02", dun: "Tanjung Bidara", district: "Alor Gajah", adun: "YAB Datuk Seri Dr. Ab Rauf Yusoh", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPAG", baseTotal: 64, baseResolved: 55, respHours: 9.2, score: 92, isCM: true },
+      { code: "N.03", dun: "Ayer Limau", district: "Alor Gajah", adun: "Datuk Hameed Mytheen Kunju Basheer", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPAG", baseTotal: 52, baseResolved: 43, respHours: 11.8, score: 88 },
+      { code: "N.04", dun: "Lendu", district: "Alor Gajah", adun: "Datuk Abdul Hakim Abdul Wahid", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPAG", baseTotal: 45, baseResolved: 36, respHours: 13.4, score: 84 },
+      { code: "N.05", dun: "Taboh Naning", district: "Alor Gajah", adun: "Datuk Zulkiflee Mohd Zin", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPAG", baseTotal: 41, baseResolved: 33, respHours: 14.0, score: 83 },
+      { code: "N.06", dun: "Rembia", district: "Alor Gajah", adun: "Ahmad Norazril Abd Aziz", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPAG", baseTotal: 56, baseResolved: 44, respHours: 12.1, score: 85 },
+      { code: "N.07", dun: "Gadek", district: "Alor Gajah", adun: "Shanmugam Ptcyhay / S. Nadarajah", party: "BN-MIC", bloc: "Kerajaan (BN-PN)", pbt: "MPAG", baseTotal: 44, baseResolved: 34, respHours: 14.6, score: 81 },
+      { code: "N.08", dun: "Machap Jaya", district: "Alor Gajah", adun: "Datuk Ngwe Hee Sem", party: "BN-MCA", bloc: "Kerajaan (BN-PN)", pbt: "MPAG", baseTotal: 47, baseResolved: 37, respHours: 13.9, score: 82 },
+      { code: "N.09", dun: "Durian Tunggal", district: "Alor Gajah", adun: "Datuk Dr. Mustafa Musa", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPAG / MPHTJ", baseTotal: 54, baseResolved: 43, respHours: 12.8, score: 85 },
+      { code: "N.10", dun: "Asahan", district: "Alor Gajah", adun: "Datuk Fairul Nizam Roslan", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPAG / MPJ", baseTotal: 49, baseResolved: 40, respHours: 11.9, score: 87 },
+      { code: "N.11", dun: "Sungai Udang", district: "Melaka Tengah", adun: "Datuk Rais Yasin", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MBMB", baseTotal: 68, baseResolved: 56, respHours: 10.5, score: 90 },
+      { code: "N.12", dun: "Pantai Kundor", district: "Melaka Tengah", adun: "Datuk Tuminah Kadi @ Mohd Hashim", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MBMB", baseTotal: 46, baseResolved: 36, respHours: 14.2, score: 82 },
+      { code: "N.13", dun: "Paya Rumput", district: "Melaka Tengah", adun: "Rafie Ahmad", party: "PN-PAS", bloc: "Kerajaan (BN-PN)", pbt: "MBMB", baseTotal: 61, baseResolved: 47, respHours: 13.5, score: 84 },
+      { code: "N.14", dun: "Klebang", district: "Melaka Tengah", adun: "Datuk Wira Lim Ban Hong", party: "BN-MCA", bloc: "Kerajaan (BN-PN)", pbt: "MBMB", baseTotal: 53, baseResolved: 42, respHours: 13.1, score: 84 },
+      { code: "N.15", dun: "Pengkalan Batu", district: "Melaka Tengah", adun: "Siti Aisyah Mahmood", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MBMB / MPHTJ", baseTotal: 55, baseResolved: 43, respHours: 12.7, score: 85 },
+      { code: "N.16", dun: "Ayer Keroh", district: "Melaka Tengah", adun: "Kerk Chee Yee", party: "PH-DAP", bloc: "Pembangkang (PH)", pbt: "MPHTJ", baseTotal: 58, baseResolved: 43, respHours: 15.8, score: 79 },
+      { code: "N.17", dun: "Bukit Katil", district: "Melaka Tengah", adun: "Muhammad Ridzuan Mohd Sarif", party: "PN-PAS", bloc: "Kerajaan (BN-PN)", pbt: "MBMB / MPHTJ", baseTotal: 57, baseResolved: 44, respHours: 13.8, score: 83 },
+      { code: "N.18", dun: "Ayer Molek", district: "Melaka Tengah", adun: "Datuk Mohd Ridhwan Mohd Ali", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MBMB", baseTotal: 59, baseResolved: 48, respHours: 11.4, score: 88 },
+      { code: "N.19", dun: "Kesidang", district: "Melaka Tengah", adun: "Allex Seah Shoo Chin", party: "PH-DAP", bloc: "Pembangkang (PH)", pbt: "MBMB", baseTotal: 60, baseResolved: 45, respHours: 15.4, score: 80 },
+      { code: "N.20", dun: "Kota Laksamana", district: "Melaka Tengah", adun: "Low Chee Leong", party: "PH-DAP", bloc: "Pembangkang (PH)", pbt: "MBMB", baseTotal: 51, baseResolved: 38, respHours: 16.1, score: 78 },
+      { code: "N.21", dun: "Bandar Hilir", district: "Melaka Tengah", adun: "Leng Chau Yen", party: "PH-DAP", bloc: "Pembangkang (PH)", pbt: "MBMB", baseTotal: 46, baseResolved: 34, respHours: 16.4, score: 78 },
+      { code: "N.22", dun: "Duyong", district: "Melaka Tengah", adun: "Datuk Mohd Noor Helmy Abdul Halem", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MBMB", baseTotal: 66, baseResolved: 57, respHours: 8.9, score: 94 },
+      { code: "N.23", dun: "Telok Mas", district: "Melaka Tengah", adun: "Datuk Abdul Razak Abdul Rahman", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MBMB", baseTotal: 54, baseResolved: 44, respHours: 12.2, score: 86 },
+      { code: "N.24", dun: "Bemban", district: "Jasin", adun: "Dr. Mohd Yadzil Yaakub", party: "PN-WAWASAN", bloc: "Kerajaan (BN-PN)", pbt: "MPJ", baseTotal: 49, baseResolved: 38, respHours: 13.7, score: 83 },
+      { code: "N.25", dun: "Rim", district: "Jasin", adun: "Datuk Khaidhirah Abu Zahar", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPJ", baseTotal: 47, baseResolved: 38, respHours: 12.6, score: 86 },
+      { code: "N.26", dun: "Serkam", district: "Jasin", adun: "Datuk Azman Abdullah", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPJ", baseTotal: 48, baseResolved: 39, respHours: 12.4, score: 86 },
+      { code: "N.27", dun: "Merlimau", district: "Jasin", adun: "Datuk Dr. Muhamad Akmal Saleh", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPJ", baseTotal: 63, baseResolved: 54, respHours: 9.5, score: 92 },
+      { code: "N.28", dun: "Sungai Rambai", district: "Jasin", adun: "Jezlee Pit", party: "BN-UMNO", bloc: "Kerajaan (BN-PN)", pbt: "MPJ", baseTotal: 42, baseResolved: 33, respHours: 13.9, score: 82 }
+    ];
+
+    // -------------------------------------------------------------------------
+    // 2. INITIAL REALISTIC COMPLAINT TICKETS DATASET (PERSISTED IN LOCALSTORAGE)
+    // -------------------------------------------------------------------------
+    const STORAGE_KEY_TICKETS = 'suaradun_melaka_2026_tickets_v1';
+
+    const defaultTickets = [
+      {
+        id: "#MLK-N22-2026-014",
+        dunCode: "N.22",
+        category: "Banjir & Perparitan",
+        priority: "Segera",
+        location: "Jalan Utama Taman Seri Duyong 2 & Simpang Semabok",
+        title: "Parit monsun tersumbat dan mendapan tebing berhampiran simpang utama",
+        description: "Aliran air hujan bertakung dengan cepat apabila hujan lebat lebih 45 minit akibat mendapan tanah dan sampah pukal dalam parit utama.",
+        channel: "TikTok/FB Tular",
+        reporter: "Mohd Faizal bin Rahman",
+        status: "Selesai",
+        rating: 5,
+        createdAt: "15 Nov 2026, 09:30 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 16:15 MYT", stage: "Selesai", note: "Jentera pengorek MBMB & pasukan JAPERUN Duyong selesai membersihkan keseluruhan jajaran parit monsun. Penarafan 5 bintang oleh pengadu." },
+          { date: "15 Nov 2026, 14:10 MYT", stage: "Lawatan Tapak", note: "ADUN Duyong bersama jurutera MBMB melakukan tinjauan tapak dan mengarahkan kerja pembersihan segera." },
+          { date: "15 Nov 2026, 09:30 MYT", stage: "Diterima / Baru", note: "Aduan dikesan melalui video tular penduduk dan didaftarkan sebagai tiket rasmi." }
+        ]
+      },
+      {
+        id: "#MLK-N02-2026-013",
+        dunCode: "N.02",
+        category: "Utiliti (Air/Elektrik/Lampu Solar)",
+        priority: "Segera",
+        location: "Kampung Balik Batu & Jalan Pesisir Tanjung Bidara",
+        title: "6 unit lampu jalan solar tidak menyala di laluan kampung menuju jeti",
+        description: "Laluan utama nelayan ke jeti gelap pada waktu awal pagi kerana bateri 6 tiang lampu jalan solar sedia ada perlu diganti.",
+        channel: "Program WRUR/HEBAT",
+        reporter: "Haji Sulaiman bin Osman",
+        status: "Dalam Tindakan JAPERUN/PBT",
+        rating: 4,
+        createdAt: "16 Nov 2026, 10:20 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 15:40 MYT", stage: "Dalam Tindakan JAPERUN/PBT", note: "Unit Kejuruteraan MPAG dan JKR Alor Gajah telah mengesahkan senarai tiang untuk penggantian modul solar minggu ini." },
+          { date: "16 Nov 2026, 10:20 MYT", stage: "Diterima / Baru", note: "Direkodkan melalui kaunter khidmat masyarakat JAPERUN Tanjung Bidara." }
+        ]
+      },
+      {
+        id: "#MLK-N27-2026-012",
+        dunCode: "N.27",
+        category: "Kebajikan & Kos Sara Hidup (MeSRa/WRUR)",
+        priority: "Biasa",
+        location: "Kampung Tedong & Pekan Merlimau",
+        title: "Permohonan bekalan susu khas pesakit terlantar & lampin warga emas",
+        description: "Keluarga B40 memohon penyaluran segera susu khas dan lampin pakai buang bagi warga emas terlantar pasca-rawatan hospital.",
+        channel: "WhatsApp JAPERUN",
+        reporter: "Nurul Ain binti Zulkifli",
+        status: "Selesai",
+        rating: 5,
+        createdAt: "15 Nov 2026, 11:05 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 11:30 MYT", stage: "Selesai", note: "Skuad Kebajikan JAPERUN Merlimau menghantar pek susu khas dan lampin pakai buang terus ke rumah pemohon." },
+          { date: "15 Nov 2026, 11:05 MYT", stage: "Diterima / Baru", note: "Permohonan diterima melalui talian WhatsApp rasmi JAPERUN Merlimau." }
+        ]
+      },
+      {
+        id: "#MLK-N13-2026-011",
+        dunCode: "N.13",
+        category: "Infrastruktur & Jalan Raya",
+        priority: "Segera",
+        location: "Persimpangan Lampu Isyarat Taman Paya Rumput Perdana",
+        title: "Jalan berlubang besar dan garis jalan pudar di laluan utama Cheng–Paya Rumput",
+        description: "Terdapat dua lubang dalam berhampiran garisan berhenti motosikal yang membahayakan penunggang pada waktu malam dan hujan.",
+        channel: "Portal SuaraDUN",
+        reporter: "Ahmad Syafiq bin Mazlan",
+        status: "Dalam Tindakan JAPERUN/PBT",
+        rating: 4,
+        createdAt: "16 Nov 2026, 14:15 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 18:00 MYT", stage: "Dalam Tindakan JAPERUN/PBT", note: "Pejabat ADUN Paya Rumput telah memanjangkan tiket kepada JKR Melaka Tengah & MBMB untuk tampalan premix segera." },
+          { date: "16 Nov 2026, 14:15 MYT", stage: "Diterima / Baru", note: "Dihantar oleh pengguna melalui Portal SuaraDUN Melaka." }
+        ]
+      },
+      {
+        id: "#MLK-N16-2026-010",
+        dunCode: "N.16",
+        category: "Banjir & Perparitan",
+        priority: "Kecemasan",
+        location: "Taman Tasik Utama, Ayer Keroh",
+        title: "Pam air kolam takungan perlahan semasa hujan lebat petang",
+        description: "Penduduk memohon pemeriksaan segera sistem pam automatik kolam takungan berhampiran kawasan perumahan Fasa 3.",
+        channel: "Portal SuaraDUN",
+        reporter: "Tan Wei Ming",
+        status: "Tertangguh / Tular",
+        rating: 3,
+        createdAt: "16 Nov 2026, 17:45 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 21:10 MYT", stage: "Tertangguh / Tular", note: "Hantaran Facebook komuniti Ayer Keroh meraih 340 perkongsian. ADUN Ayer Keroh telah mengeluarkan surat rasmi kepada JPS & MPHTJ untuk audit pam esok pagi." },
+          { date: "16 Nov 2026, 17:45 MYT", stage: "Diterima / Baru", note: "Tiket kecemasan didaftarkan oleh persatuan penduduk." }
+        ]
+      },
+      {
+        id: "#MLK-N11-2026-009",
+        dunCode: "N.11",
+        category: "Kesihatan & Kebersihan PBT",
+        priority: "Biasa",
+        location: "Taman Terendak Permai, Sungai Udang",
+        title: "Pembersihan dahan pokok reput & kutipan sampah pukal kebun",
+        description: "Beberapa dahan pokok besar menghalang papan tanda jalan dan kabel utiliti di lorong masuk taman.",
+        channel: "WhatsApp JAPERUN",
+        reporter: "Mejar (B) Kamarulzaman",
+        status: "Selesai",
+        rating: 5,
+        createdAt: "15 Nov 2026, 15:20 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 13:00 MYT", stage: "Selesai", note: "Unit Landskap MBMB dengan penyelarasan JAPERUN Sungai Udang selesai mencantas pokok dan membersihkan sisa." },
+          { date: "15 Nov 2026, 15:20 MYT", stage: "Diterima / Baru", note: "Laporan diterima dan dirujuk kepada MBMB." }
+        ]
+      },
+      {
+        id: "#MLK-N01-2026-008",
+        dunCode: "N.01",
+        category: "Pelancongan & Ekonomi Kecil",
+        priority: "Biasa",
+        location: "Medan Selera Pantai Kuala Linggi",
+        title: "Penyelenggaraan bumbung gerai penjaja dan lampu kawasan parkir",
+        description: "Penjaja memohon pembaikan bumbung zink yang bocor serta tambahan lampu di kawasan parkir pengunjung hujung minggu.",
+        channel: "Program WRUR/HEBAT",
+        reporter: "Zainab binti Mohamad",
+        status: "Dalam Tindakan JAPERUN/PBT",
+        rating: 4,
+        createdAt: "16 Nov 2026, 09:50 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 16:45 MYT", stage: "Dalam Tindakan JAPERUN/PBT", note: "Pegawai khas ADUN Kuala Linggi bersama wakil MPAG telah mengukur spesifikasi bumbung gerai untuk kerja baik pulih." },
+          { date: "16 Nov 2026, 09:50 MYT", stage: "Diterima / Baru", note: "Aduan direkodkan semasa sesi pertemuan peniaga kecil." }
+        ]
+      },
+      {
+        id: "#MLK-N24-2026-007",
+        dunCode: "N.24",
+        category: "Utiliti (Air/Elektrik/Lampu Solar)",
+        priority: "Segera",
+        location: "Kampung Ayer Panas, Bemban",
+        title: "Tekanan air rendah pada waktu puncak hujung minggu",
+        description: "Beberapa buah rumah di penghujung paip utama mengalami tekanan air perlahan antara jam 6 petang hingga 9 malam.",
+        channel: "Portal SuaraDUN",
+        reporter: "Pengadu Anonim",
+        status: "Diterima / Baru",
+        rating: 0,
+        createdAt: "16 Nov 2026, 22:15 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 22:15 MYT", stage: "Diterima / Baru", note: "Tiket diterima secara automatik dan dijadualkan untuk rujukan teknikal SAMB Daerah Jasin pada jam 8:00 pagi." }
+        ]
+      },
+      {
+        id: "#MLK-N19-2026-006",
+        dunCode: "N.19",
+        category: "Infrastruktur & Jalan Raya",
+        priority: "Segera",
+        location: "Jalan Malim Jaya 2/1, Kesidang",
+        title: "Penutup lurang pembetungan mendap di laluan komersial",
+        description: "Penutup besi lurang di hadapan deretan kedai mendap dan mengeluarkan bunyi kuat setiap kali kenderaan berat melintas.",
+        channel: "Portal SuaraDUN",
+        reporter: "Lim Kah Wai",
+        status: "Dalam Tindakan JAPERUN/PBT",
+        rating: 4,
+        createdAt: "16 Nov 2026, 11:40 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 17:10 MYT", stage: "Dalam Tindakan JAPERUN/PBT", note: "Pusat Khidmat DUN Kesidang telah meletakkan kon keselamatan dan mengemukakan aduan rasmi kepada IWK & MBMB." },
+          { date: "16 Nov 2026, 11:40 MYT", stage: "Diterima / Baru", note: "Aduan diterima melalui borang web SuaraDUN." }
+        ]
+      },
+      {
+        id: "#MLK-N25-2026-005",
+        dunCode: "N.25",
+        category: "Pendidikan & Belia/TVET",
+        priority: "Biasa",
+        location: "Balai Raya Kampung Rim, Jasin",
+        title: "Permohonan ruang pusat tuisyen komuniti & bengkel kemahiran TVET belia",
+        description: "Jawatankuasa belia kampung memohon penggunaan dewan komuniti pada hujung minggu untuk kelas ulang kaji SPM dan taklimat TVET.",
+        channel: "Program WRUR/HEBAT",
+        reporter: "Muhammad Hafiz bin Roslan",
+        status: "Selesai",
+        rating: 5,
+        createdAt: "15 Nov 2026, 16:00 MYT",
+        timeline: [
+          { date: "16 Nov 2026, 14:30 MYT", stage: "Selesai", note: "ADUN Rim meluluskan penyelarasan jadual penggunaan balai raya secara percuma untuk kelas bimbingan belia." },
+          { date: "15 Nov 2026, 16:00 MYT", stage: "Diterima / Baru", note: "Cadangan dikemukakan oleh persatuan belia setempat." }
+        ]
+      }
+    ];
+
+    // -------------------------------------------------------------------------
+    // 3. AUTONOMOUS DIGITAL ALGORITHM & NEWS CRAWLER STREAM
+    // -------------------------------------------------------------------------
+    let crawlerSignals = [
+      {
+        id: "CRAWL-901",
+        source: "Melaka Hari Ini • Berita Rasmi",
+        time: "17 Nov 2026, 00:15 MYT",
+        dunCode: "N.02",
+        category: "Kebajikan & Kos Sara Hidup (MeSRa/WRUR)",
+        headline: "Kerajaan Negeri Melaka selaras JAPERUN semua 28 DUN perkasa saluran aduan rakyat & Program WRUR",
+        snippet: "Pentadbiran YAB Datuk Seri Dr. Ab Rauf Yusoh menekankan penyelesaian pantas aduan akar umbi merentas semua kawasan pentadbiran PBT negeri.",
+        sentiment: "Positif (82%)",
+        converted: false
+      },
+      {
+        id: "CRAWL-902",
+        source: "TikTok Aduan Melaka • Radar Viral",
+        time: "16 Nov 2026, 23:20 MYT",
+        dunCode: "N.14",
+        category: "Infrastruktur & Jalan Raya",
+        headline: "Video tular kesesakan parkir hujung minggu & lampu jalan malap di laluan pantai Klebang",
+        snippet: "Algoritma mengesan 280 komen penduduk & pelancong mencadangkan penyusunan semula papan tanda arah dan pencahayaan tambahan.",
+        sentiment: "Neutral / Cadangan (58%)",
+        converted: false
+      },
+      {
+        id: "CRAWL-903",
+        source: "Astro Awani • Liputan Selatan",
+        time: "16 Nov 2026, 21:45 MYT",
+        dunCode: "N.10",
+        category: "Utiliti (Air/Elektrik/Lampu Solar)",
+        headline: "Penduduk luar bandar Asahan dan Nyalas sambut baik peluasan lampu solar jalan kampung",
+        snippet: "Komuniti kampung tradisional mengharapkan pemasangan lampu solar diutamakan di selekoh gelap dan laluan pelajar sekolah agama.",
+        sentiment: "Positif (76%)",
+        converted: false
+      },
+      {
+        id: "CRAWL-904",
+        source: "Facebook Komuniti DUN • Melaka Tengah",
+        time: "16 Nov 2026, 20:10 MYT",
+        dunCode: "N.18",
+        category: "Banjir & Perparitan",
+        headline: "Penduduk Kampung Kandang minta pembersihan rumput panjang di tebing saliran pertanian",
+        snippet: "Hantaran komuniti setempat menarik perhatian sukarelawan JAPERUN Ayer Molek untuk tindakan gotong-royong bersepadu.",
+        sentiment: "Positif (71%)",
+        converted: false
+      },
+      {
+        id: "CRAWL-905",
+        source: "Buletin TV3 • Wilayah",
+        time: "16 Nov 2026, 18:50 MYT",
+        dunCode: "N.27",
+        category: "Pendidikan & Belia/TVET",
+        headline: "Belia Melaka nantikan pembukaan permohonan geran start-up & bantuan servis motosikal P-Hailing",
+        snippet: "Komuniti penghantar makanan di Jasin dan Melaka Tengah menyuarakan sokongan terhadap inisiatif kebajikan ekonomi gig.",
+        sentiment: "Positif (79%)",
+        converted: false
+      }
+    ];
+
+    // -------------------------------------------------------------------------
+    // 4. APPLICATION STATE & CHART INSTANCES
+    // -------------------------------------------------------------------------
+    let tickets = [];
+    let activeTab = 'tracker';
+    let selectedTicketStatus = 'ALL';
+    let selectedAdunDistrict = 'ALL';
+    let currentModalTicketId = null;
+
+    // Live Autonomous Scheduler State
+    let isAutoSyncOn = true;
+    let autoIntervalSec = 300; // Default: 5 minutes
+    let countdownSec = 300;
+    let syncCycleCount = 24;
+    let isScanningNow = false;
+
+    // Chart.js Instances
+    let barChartInstance = null;
+    let donutChartInstance = null;
+
+    // -------------------------------------------------------------------------
+    // 5. INITIALIZATION
+    // -------------------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      loadTicketsFromStorage();
+      populateDunDropdowns();
+      updateExecutiveKPIs();
+      renderTicketsList();
+      renderAdunDirectory();
+      renderCrawlerFeed();
+      initAutonomousConsole();
+      startLiveMYTClock();
+      startAutonomousCountdown();
+    });
+
+    function loadTicketsFromStorage() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_TICKETS);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            tickets = parsed;
+            return;
+          }
+        }
+      } catch (e) {
+        // Fallback to defaultTickets
+      }
+      tickets = JSON.parse(JSON.stringify(defaultTickets));
+      saveTicketsToStorage();
+    }
+
+    function saveTicketsToStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY_TICKETS, JSON.stringify(tickets));
+      } catch (e) {
+        // Ignore storage quota errors
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. LIVE MYT CLOCK & SCHEDULED AUTONOMOUS COUNTDOWN
+    // -------------------------------------------------------------------------
+    function startLiveMYTClock() {
+      const tick = () => {
+        const now = new Date();
+        const months = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis'];
+        const str = `${String(now.getDate()).padStart(2, '0')} ${months[now.getMonth()]} ${now.getFullYear()}, ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')} MYT`;
+        const el = document.getElementById('live-myt-clock');
+        if (el) el.textContent = str;
+      };
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    function startAutonomousCountdown() {
+      setInterval(() => {
+        if (!isAutoSyncOn || isScanningNow) return;
+        if (countdownSec > 0) {
+          countdownSec--;
+          updateCountdownUI();
+        } else {
+          countdownSec = autoIntervalSec;
+          updateCountdownUI();
+          runLiveCrawlerScan(true);
+        }
+      }, 1000);
+    }
+
+    function updateCountdownUI() {
+      const hrs = Math.floor(countdownSec / 3600);
+      const mins = Math.floor((countdownSec % 3600) / 60);
+      const secs = countdownSec % 60;
+      const text = hrs > 0
+        ? `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+        : `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      document.getElementById('countdown-timer').textContent = text;
+    }
+
+    function changeAutoInterval(val) {
+      autoIntervalSec = parseInt(val, 10);
+      countdownSec = autoIntervalSec;
+      updateCountdownUI();
+      const map = { '300': 'Setiap 5 Minit', '900': 'Setiap 15 Minit', '3600': 'Setiap 1 Jam', '21600': 'Setiap 6 Jam' };
+      logToConsole(`[JADUAL] Selang kemas kini berjadual ditetapkan kepada ${map[val]}.`);
+      showToast(`Selang kemas kini automatik ditukar kepada ${map[val]}.`, 'info');
+    }
+
+    function toggleAutoSync() {
+      isAutoSyncOn = !isAutoSyncOn;
+      const pill = document.getElementById('live-status-pill');
+      const ring = document.getElementById('live-pulse-ring');
+      const dot = document.getElementById('live-pulse-dot');
+      const text = document.getElementById('live-status-text');
+      const btn = document.getElementById('btn-autosync-toggle');
+      const autoDot = document.getElementById('autosync-dot');
+      const autoLabel = document.getElementById('autosync-label');
+
+      if (isAutoSyncOn) {
+        pill.className = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs font-extrabold tracking-wide';
+        ring.classList.remove('hidden');
+        dot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600';
+        text.textContent = 'ENJIN ALGORITMA & TELEMETRI ADUAN: AKTIF';
+        btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border transition cursor-pointer bg-[#0F2B5B] text-white border-[#0F2B5B] hover:bg-blue-900';
+        autoDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        autoLabel.textContent = 'Auto-Sync: ON';
+        logToConsole('[SISTEM] Auto-Sync berjadual DIAKTIFKAN semula.');
+        showToast('Auto-Sync berjadual diaktifkan.', 'success');
+      } else {
+        pill.className = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-950 text-xs font-extrabold tracking-wide';
+        ring.classList.add('hidden');
+        dot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500';
+        text.textContent = 'MOD MANUAL • AUTO-SYNC DIJEDA';
+        btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-extrabold border transition cursor-pointer bg-white text-slate-700 border-slate-300 hover:bg-slate-50';
+        autoDot.className = 'w-2 h-2 rounded-full bg-slate-400';
+        autoLabel.textContent = 'Auto-Sync: OFF';
+        logToConsole('[SISTEM] Auto-Sync berjadual DIJEDA oleh pengguna.');
+        showToast('Auto-Sync dijeda. Anda masih boleh mengimbas secara manual.', 'info');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. TAB SWITCHING & DROPDOWN POPULATION
+    // -------------------------------------------------------------------------
+    function switchTab(tabName) {
+      activeTab = tabName;
+      ['tracker', 'intake', 'aduns', 'crawler'].forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tabName) {
+          view.classList.remove('hidden');
+          btn.classList.remove('border-transparent', 'text-blue-200', 'font-semibold');
+          btn.classList.add('border-[#F59E0B]', 'text-white', 'font-extrabold');
+        } else {
+          view.classList.add('hidden');
+          btn.classList.add('border-transparent', 'text-blue-200', 'font-semibold');
+          btn.classList.remove('border-[#F59E0B]', 'text-white', 'font-extrabold');
+        }
+      });
+
+      if (tabName === 'aduns') {
+        renderAnalyticsCharts();
+      }
+    }
+
+    function populateDunDropdowns() {
+      const filterDunEl = document.getElementById('filter-dun');
+      const formDunEl = document.getElementById('form-dun-select');
+
+      dunDirectory.forEach(d => {
+        const opt1 = document.createElement('option');
+        opt1.value = d.code;
+        opt1.textContent = `${d.code} ${d.dun} (${d.adun.replace(/YAB |Datuk Seri Dr\. |Datuk Wira |Datuk Dr\. |Datuk /g, '')})`;
+        filterDunEl.appendChild(opt1);
+
+        const opt2 = document.createElement('option');
+        opt2.value = d.code;
+        opt2.textContent = `${d.code} ${d.dun} — ${d.district}`;
+        formDunEl.appendChild(opt2);
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 8. EXECUTIVE KPI CALCULATIONS
+    // -------------------------------------------------------------------------
+    function updateExecutiveKPIs() {
+      const baseSumTotal = dunDirectory.reduce((acc, d) => acc + d.baseTotal, 0);
+      const baseSumResolved = dunDirectory.reduce((acc, d) => acc + d.baseResolved, 0);
+
+      const liveTotal = baseSumTotal + tickets.length;
+      const liveResolvedCount = tickets.filter(t => t.status === 'Selesai').length;
+      const totalResolved = baseSumResolved + liveResolvedCount;
+      const ratePct = ((totalResolved / liveTotal) * 100).toFixed(1);
+
+      const viralIssues = tickets.filter(t => t.status === 'Tertangguh / Tular' || t.channel === 'TikTok/FB Tular').length + 7;
+
+      document.getElementById('kpi-total-complaints').textContent = liveTotal.toLocaleString();
+      document.getElementById('kpi-resolution-rate').textContent = `${ratePct}%`;
+      document.getElementById('kpi-resolved-count').textContent = `(${totalResolved.toLocaleString()} Selesai)`;
+      document.getElementById('kpi-resolution-bar').style.width = `${ratePct}%`;
+      document.getElementById('kpi-viral-count').textContent = `${viralIssues} Isu`;
+      document.getElementById('nav-ticket-count').textContent = tickets.length;
+    }
+
+    // -------------------------------------------------------------------------
+    // 9. MODULE 2: SUARADUN COMPLAINT INTAKE FORM & RECEIPT GENERATOR
+    // -------------------------------------------------------------------------
+    function onIntakeDunChange(dunCode) {
+      const d = dunDirectory.find(item => item.code === dunCode);
+      const nameEl = document.getElementById('preview-adun-name');
+      const metaEl = document.getElementById('preview-adun-meta');
+
+      if (!d) {
+        nameEl.textContent = 'Sila pilih kawasan DUN di sebelah';
+        metaEl.textContent = 'Daerah & Parti akan dipaparkan automatik';
+        return;
+      }
+
+      nameEl.textContent = d.adun;
+      metaEl.textContent = `Daerah ${d.district} • ${d.party} (${d.bloc}) • PBT: ${d.pbt}`;
+    }
+
+    function toggleAnonymousComplainant(isAnon) {
+      const fields = document.getElementById('complainant-fields');
+      const nameInput = document.getElementById('form-reporter-name');
+      const phoneInput = document.getElementById('form-reporter-phone');
+      if (isAnon) {
+        fields.classList.add('opacity-50');
+        nameInput.disabled = true;
+        phoneInput.disabled = true;
+        nameInput.value = '';
+        phoneInput.value = '';
+      } else {
+        fields.classList.remove('opacity-50');
+        nameInput.disabled = false;
+        phoneInput.disabled = false;
+      }
+    }
+
+    function handleComplaintSubmit(event) {
+      event.preventDefault();
+
+      const dunCode = document.getElementById('form-dun-select').value;
+      const d = dunDirectory.find(item => item.code === dunCode);
+      if (!d) {
+        showToast('Sila pilih kawasan DUN Melaka terlebih dahulu.', 'info');
+        return;
+      }
+
+      const category = document.getElementById('form-category').value;
+      const priority = document.getElementById('form-priority').value;
+      const location = document.getElementById('form-location').value.trim();
+      const channel = document.getElementById('form-channel').value;
+      const title = document.getElementById('form-title').value.trim();
+      const description = document.getElementById('form-description').value.trim();
+      const isAnon = document.getElementById('form-anonymous').checked;
+      const rawName = document.getElementById('form-reporter-name').value.trim();
+      const reporter = isAnon || !rawName ? 'Pengadu Anonim (Identiti Dilindungi)' : rawName;
+
+      const seqNum = String(tickets.length + 1).padStart(3, '0');
+      const cleanCode = dunCode.replace('.', '');
+      const ticketId = `#MLK-${cleanCode}-2026-${seqNum}`;
+      const nowStr = getFormattedMYT();
+
+      const newTicket = {
+        id: ticketId,
+        dunCode: dunCode,
+        category,
+        priority,
+        location,
+        title,
+        description,
+        channel,
+        reporter,
+        status: 'Diterima / Baru',
+        rating: 0,
+        createdAt: nowStr,
+        timeline: [
+          {
+            date: nowStr,
+            stage: 'Diterima / Baru',
+            note: `Tiket aduan dijana secara automatik dan disalurkan kepada pejabat ${d.adun} (${d.code} ${d.dun}) serta ${d.pbt}.`
+          }
+        ]
+      };
+
+      tickets.unshift(newTicket);
+      saveTicketsToStorage();
+
+      // Update Receipt Card
+      document.getElementById('receipt-ticket-id').textContent = ticketId;
+      document.getElementById('receipt-status-badge').textContent = 'Diterima / Baru';
+      document.getElementById('receipt-dun').textContent = `${d.code} ${d.dun} (${d.district})`;
+      document.getElementById('receipt-adun').textContent = `${d.adun} (${d.party})`;
+      document.getElementById('receipt-title').textContent = title;
+      document.getElementById('receipt-time').textContent = nowStr;
+
+      // Reset Form
+      document.getElementById('complaint-intake-form').reset();
+      toggleAnonymousComplainant(false);
+      onIntakeDunChange('');
+
+      // Refresh KPIs, Tickets List & Directory
+      updateExecutiveKPIs();
+      renderTicketsList();
+      renderAdunDirectory();
+      logToConsole(`[ADUAN-BAHARU] Tiket ${ticketId} (${dunCode} ${d.dun}) diterima melalui ${channel}.`);
+      showToast(`Aduan berjaya dihantar! Nombor Tiket Anda: ${ticketId}`, 'success');
+    }
+
+    function copyLastReceiptTicket() {
+      const id = document.getElementById('receipt-ticket-id').textContent;
+      copyTextToClipboard(id);
+    }
+
+    // -------------------------------------------------------------------------
+    // 10. MODULE 3: TICKET TRACKER FILTERING & RENDERING
+    // -------------------------------------------------------------------------
+    function setTicketStatusFilter(status) {
+      selectedTicketStatus = status;
+      document.querySelectorAll('.tstat-btn').forEach(b => {
+        b.className = 'tstat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer';
+      });
+      const active = document.getElementById(`tstat-btn-${status}`);
+      if (active) {
+        active.className = 'tstat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#0F2B5B] text-white cursor-pointer shadow-2xs';
+      }
+      renderTicketsList();
+    }
+
+    function resetTicketFilters() {
+      selectedTicketStatus = 'ALL';
+      document.getElementById('ticket-search-input').value = '';
+      document.getElementById('filter-district').value = 'ALL';
+      document.getElementById('filter-dun').value = 'ALL';
+      document.getElementById('filter-category').value = 'ALL';
+      setTicketStatusFilter('ALL');
+    }
+
+    function getTicketStatusBadge(status) {
+      if (status === 'Selesai') {
+        return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200"><i class="fa-solid fa-circle-check text-emerald-600"></i>Selesai</span>`;
+      }
+      if (status === 'Dalam Tindakan JAPERUN/PBT') {
+        return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-800 border border-blue-200"><i class="fa-solid fa-person-digging text-blue-600"></i>Dalam Tindakan</span>`;
+      }
+      if (status === 'Tertangguh / Tular') {
+        return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-50 text-[#CE1126] border border-red-200"><i class="fa-solid fa-fire text-[#CE1126]"></i>Tertangguh / Tular</span>`;
+      }
+      return `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200"><i class="fa-solid fa-clock text-amber-600"></i>Diterima / Baru</span>`;
+    }
+
+    function renderTicketsList() {
+      const query = document.getElementById('ticket-search-input').value.trim().toLowerCase();
+      const district = document.getElementById('filter-district').value;
+      const dunCode = document.getElementById('filter-dun').value;
+      const category = document.getElementById('filter-category').value;
+
+      const filtered = tickets.filter(t => {
+        const d = dunDirectory.find(item => item.code === t.dunCode);
+        const matchDistrict = district === 'ALL' || (d && d.district === district);
+        const matchDun = dunCode === 'ALL' || t.dunCode === dunCode;
+        const matchCat = category === 'ALL' || t.category === category;
+        const matchStatus = selectedTicketStatus === 'ALL' || t.status === selectedTicketStatus;
+        const matchQuery = !query ||
+          t.id.toLowerCase().includes(query) ||
+          t.title.toLowerCase().includes(query) ||
+          t.location.toLowerCase().includes(query) ||
+          (d && d.dun.toLowerCase().includes(query)) ||
+          (d && d.adun.toLowerCase().includes(query));
+
+        return matchDistrict && matchDun && matchCat && matchStatus && matchQuery;
+      });
+
+      const summary = document.getElementById('ticket-filter-summary');
+      summary.innerHTML = `Memaparkan <strong class="text-slate-900">${filtered.length}</strong> daripada <strong class="text-slate-900">${tickets.length}</strong> tiket aduan aktif &amp; selesai`;
+
+      const grid = document.getElementById('tickets-grid');
+      const empty = document.getElementById('tickets-empty-state');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+      grid.innerHTML = filtered.map(t => {
+        const d = dunDirectory.find(item => item.code === t.dunCode) || { dun: t.dunCode, adun: 'ADUN Melaka', district: 'Melaka' };
+        const borderClass = t.status === 'Selesai'
+          ? 'border-l-emerald-600'
+          : t.status === 'Dalam Tindakan JAPERUN/PBT'
+            ? 'border-l-blue-600'
+            : t.status === 'Tertangguh / Tular'
+              ? 'border-l-[#CE1126]'
+              : 'border-l-[#F59E0B]';
+
+        return `
+          <article onclick="openTicketModal('${t.id}')" class="group bg-white border border-slate-200 border-l-4 ${borderClass} rounded-xl p-4 sm:p-5 shadow-2xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-xs font-extrabold px-2 py-0.5 rounded bg-slate-900 text-white">${t.id}</span>
+                  <span class="text-xs font-bold text-[#0F2B5B]">${t.dunCode} ${d.dun}</span>
+                </div>
+                ${getTicketStatusBadge(t.status)}
+              </div>
+
+              <h3 class="text-sm sm:text-base font-extrabold text-slate-900 group-hover:text-[#0F2B5B] leading-snug">
+                ${t.title}
+              </h3>
+
+              <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-500">
+                <span><i class="fa-solid fa-location-dot text-[#CE1126] mr-1"></i>${t.location}</span>
+                <span>•</span>
+                <span><i class="fa-solid fa-tag text-slate-400 mr-1"></i>${t.category}</span>
+              </div>
+
+              <p class="mt-2 text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                ${t.description}
+              </p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div class="text-[11px] text-slate-600">
+                <span class="text-slate-400">ADUN:</span> <strong class="text-slate-800">${d.adun}</strong>
+              </div>
+              <span class="font-bold text-[#0F2B5B] group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
+                <span>Jejak Tindakan (${t.timeline.length})</span>
+                <span>→</span>
+              </span>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // -------------------------------------------------------------------------
+    // 11. TICKET DEEP-DIVE MODAL & AUDIT LOG UPDATE
+    // -------------------------------------------------------------------------
+    function openTicketModal(ticketId) {
+      const t = tickets.find(item => item.id === ticketId);
+      if (!t) return;
+
+      currentModalTicketId = ticketId;
+      const d = dunDirectory.find(item => item.code === t.dunCode) || { dun: t.dunCode, adun: 'ADUN Melaka', district: 'Melaka', party: 'BN' };
+
+      document.getElementById('tmodal-id').textContent = t.id;
+      document.getElementById('tmodal-status').outerHTML = `<span id="tmodal-status">${getTicketStatusBadge(t.status)}</span>`;
+      document.getElementById('tmodal-priority').textContent = `Keutamaan: ${t.priority}`;
+      document.getElementById('tmodal-title').textContent = t.title;
+      document.getElementById('tmodal-dun').textContent = `${t.dunCode} ${d.dun} (${d.district})`;
+      document.getElementById('tmodal-adun').textContent = `${d.adun} (${d.party})`;
+      document.getElementById('tmodal-cat').textContent = t.category;
+      document.getElementById('tmodal-channel').textContent = t.channel;
+      document.getElementById('tmodal-loc').textContent = t.location;
+      document.getElementById('tmodal-reporter').textContent = t.reporter;
+      document.getElementById('tmodal-desc').textContent = t.description;
+      document.getElementById('tmodal-new-status').value = t.status;
+      document.getElementById('tmodal-action-note').value = '';
+
+      // Render rating stars
+      const ratingEl = document.getElementById('tmodal-rating-stars');
+      let starsHTML = '';
+      for (let i = 1; i <= 5; i++) {
+        const filled = i <= t.rating;
+        starsHTML += `<button onclick="rateTicket(${i})" class="cursor-pointer hover:scale-110 transition" title="Beri ${i} bintang"><i class="${filled ? 'fa-solid' : 'fa-regular'} fa-star"></i></button>`;
+      }
+      ratingEl.innerHTML = starsHTML;
+
+      // Render Timeline
+      const tlContainer = document.getElementById('tmodal-timeline');
+      tlContainer.innerHTML = t.timeline.map((step, idx) => `
+        <div class="relative pl-5">
+          <span class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full border-2 border-white ${idx === 0 ? 'bg-[#CE1126]' : 'bg-[#0F2B5B]'}"></span>
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <span class="text-xs font-extrabold text-[#0F2B5B]">${step.stage}</span>
+              <span class="font-mono text-[11px] text-slate-500">${step.date}</span>
+            </div>
+            <p class="text-xs text-slate-700 leading-relaxed">${step.note}</p>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('ticket-modal').classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function rateTicket(stars) {
+      if (!currentModalTicketId) return;
+      const t = tickets.find(item => item.id === currentModalTicketId);
+      if (!t) return;
+      t.rating = stars;
+      saveTicketsToStorage();
+      openTicketModal(t.id);
+      showToast(`Penilaian kepuasan ${stars}/5 bintang direkodkan untuk tiket ${t.id}.`, 'success');
+    }
+
+    function submitTicketAuditUpdate() {
+      if (!currentModalTicketId) return;
+      const t = tickets.find(item => item.id === currentModalTicketId);
+      if (!t) return;
+
+      const newStatus = document.getElementById('tmodal-new-status').value;
+      const noteInput = document.getElementById('tmodal-action-note').value.trim();
+      const note = noteInput || `Status dikemas kini kepada "${newStatus}" oleh pasukan pemantauan JAPERUN & PBT.`;
+
+      t.status = newStatus;
+      if (newStatus === 'Selesai' && t.rating === 0) t.rating = 5;
+
+      t.timeline.unshift({
+        date: getFormattedMYT(),
+        stage: newStatus,
+        note
+      });
+
+      saveTicketsToStorage();
+      updateExecutiveKPIs();
+      renderTicketsList();
+      renderAdunDirectory();
+      openTicketModal(t.id);
+      logToConsole(`[AUDIT-TIKET] ${t.id} dikemas kini kepada "${newStatus}".`);
+      showToast(`Log tindakan tiket ${t.id} berjaya disimpan.`, 'success');
+    }
+
+    function closeTicketModal() {
+      document.getElementById('ticket-modal').classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      currentModalTicketId = null;
+    }
+
+    function copyModalTicketInfo() {
+      if (!currentModalTicketId) return;
+      const t = tickets.find(item => item.id === currentModalTicketId);
+      if (!t) return;
+      const d = dunDirectory.find(item => item.code === t.dunCode);
+      const summary = [
+        `SUARADUN MELAKA 2026 — TIKET ${t.id}`,
+        `Kawasan DUN: ${t.dunCode} ${d ? d.dun : ''} (${d ? d.adun : ''})`,
+        `Status Semasa: ${t.status}`,
+        `Tajuk: ${t.title}`,
+        `Lokasi: ${t.location}`,
+        `Tindakan Terkini (${t.timeline[0]?.date}): ${t.timeline[0]?.note}`
+      ].join('\n');
+      copyTextToClipboard(summary);
+    }
+
+    // -------------------------------------------------------------------------
+    // 12. MODULE 4: 28 ADUN DIRECTORY & CHART.JS ANALYTICS
+    // -------------------------------------------------------------------------
+    function setAdunDistrictFilter(dist) {
+      selectedAdunDistrict = dist;
+      document.querySelectorAll('.adir-dist-btn').forEach(b => {
+        b.className = 'adir-dist-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer';
+      });
+      const active = document.getElementById(`adir-dist-${dist}`);
+      if (active) {
+        active.className = 'adir-dist-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-[#0F2B5B] text-white cursor-pointer';
+      }
+      renderAdunDirectory();
+    }
+
+    function renderAdunDirectory() {
+      const q = document.getElementById('adun-dir-search').value.trim().toLowerCase();
+      const filtered = dunDirectory.filter(d => {
+        const matchDist = selectedAdunDistrict === 'ALL' || d.district === selectedAdunDistrict;
+        const matchQ = !q ||
+          d.code.toLowerCase().includes(q) ||
+          d.dun.toLowerCase().includes(q) ||
+          d.adun.toLowerCase().includes(q) ||
+          d.party.toLowerCase().includes(q);
+        return matchDist && matchQ;
+      });
+
+      const grid = document.getElementById('adun-directory-grid');
+      grid.innerHTML = filtered.map(d => {
+        const liveDunTickets = tickets.filter(t => t.dunCode === d.code);
+        const liveResolved = liveDunTickets.filter(t => t.status === 'Selesai').length;
+        const totalCount = d.baseTotal + liveDunTickets.length;
+        const resolvedCount = d.baseResolved + liveResolved;
+        const activeCount = totalCount - resolvedCount;
+        const pct = Math.round((resolvedCount / totalCount) * 100);
+
+        const partyBadge = d.party.startsWith('BN')
+          ? 'bg-blue-50 text-[#0F2B5B] border-blue-200'
+          : d.party.startsWith('PN')
+            ? 'bg-teal-50 text-teal-800 border-teal-200'
+            : 'bg-rose-50 text-[#CE1126] border-rose-200';
+
+        return `
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-2xs hover:shadow-md transition flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2.5">
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-xs font-black px-2 py-0.5 rounded bg-[#0F2B5B] text-white">${d.code}</span>
+                  <span class="text-xs font-extrabold text-slate-800 uppercase">${d.dun}</span>
+                </div>
+                <span class="px-2 py-0.5 rounded border text-[11px] font-bold ${partyBadge}">${d.party}</span>
+              </div>
+
+              <h4 class="text-sm sm:text-base font-black text-slate-900 leading-snug">${d.adun}</h4>
+              <div class="text-[11px] text-slate-500 mt-0.5">Daerah ${d.district} • PBT: ${d.pbt}</div>
+
+              <!-- Responsiveness & Resolution Progress -->
+              <div class="mt-3.5 p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-bold text-slate-700">Kadar Penyelesaian Aduan</span>
+                  <span class="font-mono font-black text-emerald-700">${pct}%</span>
+                </div>
+                <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                  <div class="bg-emerald-600 h-full rounded-full" style="width: ${pct}%"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-1 text-center text-[11px] pt-1">
+                  <div class="bg-white border border-slate-200 rounded py-1">
+                    <div class="font-black text-emerald-700">${resolvedCount}</div>
+                    <div class="text-[10px] text-slate-500">Selesai</div>
+                  </div>
+                  <div class="bg-white border border-slate-200 rounded py-1">
+                    <div class="font-black text-amber-600">${activeCount}</div>
+                    <div class="text-[10px] text-slate-500">Aktif</div>
+                  </div>
+                  <div class="bg-white border border-slate-200 rounded py-1">
+                    <div class="font-black text-[#0F2B5B]">${d.respHours}j</div>
+                    <div class="text-[10px] text-slate-500">Respons</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-100 flex gap-2">
+              <button onclick="viewDunTickets('${d.code}')" class="flex-1 py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition cursor-pointer">
+                Semak Aduan DUN
+              </button>
+              <button onclick="openIntakeForDun('${d.code}')" class="flex-1 py-2 px-2.5 rounded-xl bg-[#0F2B5B] hover:bg-blue-900 text-white text-xs font-bold transition cursor-pointer">
+                + Hantar Aduan
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function viewDunTickets(dunCode) {
+      document.getElementById('filter-dun').value = dunCode;
+      switchTab('tracker');
+      renderTicketsList();
+    }
+
+    function openIntakeForDun(dunCode) {
+      switchTab('intake');
+      const sel = document.getElementById('form-dun-select');
+      sel.value = dunCode;
+      onIntakeDunChange(dunCode);
+    }
+
+    function renderAnalyticsCharts() {
+      // 1. District Bar Chart
+      const districts = ['Alor Gajah', 'Melaka Tengah', 'Jasin'];
+      const resolvedData = districts.map(dist => {
+        const list = dunDirectory.filter(d => d.district === dist);
+        return list.reduce((sum, d) => sum + d.baseResolved, 0);
+      });
+      const activeData = districts.map(dist => {
+        const list = dunDirectory.filter(d => d.district === dist);
+        return list.reduce((sum, d) => sum + (d.baseTotal - d.baseResolved), 0);
+      });
+
+      const ctxBar = document.getElementById('chart-dun-resolution').getContext('2d');
+      if (barChartInstance) barChartInstance.destroy();
+      barChartInstance = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: ['Daerah Alor Gajah (10 DUN)', 'Daerah Melaka Tengah (13 DUN)', 'Daerah Jasin (5 DUN)'],
+          datasets: [
+            { label: 'Aduan Selesai', data: resolvedData, backgroundColor: '#059669', borderRadius: 6 },
+            { label: 'Dalam Tindakan / Aktif', data: activeData, backgroundColor: '#F59E0B', borderRadius: 6 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 11, weight: '700' } } },
+            y: { beginAtZero: true, ticks: { font: { family: 'JetBrains Mono', size: 11 } } }
+          },
+          plugins: {
+            legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11, weight: '600' } } }
+          }
+        }
+      });
+
+      // 2. Category Donut Chart
+      const ctxDonut = document.getElementById('chart-category-donut').getContext('2d');
+      if (donutChartInstance) donutChartInstance.destroy();
+      donutChartInstance = new Chart(ctxDonut, {
+        type: 'doughnut',
+        data: {
+          labels: ['Infrastruktur & Jalan', 'Banjir & Perparitan', 'Kebajikan & MeSRa', 'Utiliti & Lampu Solar', 'Kebersihan PBT & Lain'],
+          datasets: [{
+            data: [34, 24, 19, 14, 9],
+            backgroundColor: ['#0F2B5B', '#CE1126', '#059669', '#F59E0B', '#64748B'],
+            borderWidth: 2,
+            borderColor: '#FFFFFF'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '60%',
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 11, font: { family: 'Inter', size: 10, weight: '600' } } }
+          }
+        }
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 13. MODULE 5: AUTONOMOUS CRAWLER FEED & GEMINI AI SEARCH GROUNDING
+    // -------------------------------------------------------------------------
+    function renderCrawlerFeed() {
+      const list = document.getElementById('crawler-feed-list');
+      list.innerHTML = crawlerSignals.map((sig, idx) => {
+        const d = dunDirectory.find(item => item.code === sig.dunCode) || { dun: sig.dunCode, adun: 'ADUN Melaka' };
+        return `
+          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-2xs hover:border-slate-300 transition">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-blue-50 text-[#0F2B5B] border border-blue-200 text-[10px] font-extrabold">${sig.dunCode} ${d.dun}</span>
+                <span class="text-xs font-bold text-slate-800">${sig.source}</span>
+              </div>
+              <span class="font-mono text-[11px] text-slate-400">${sig.time}</span>
+            </div>
+            <h4 class="text-sm font-extrabold text-slate-900 leading-snug">${sig.headline}</h4>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">${sig.snippet}</p>
+            <div class="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <span class="text-teal-700 font-bold text-[11px]"><i class="fa-solid fa-wave-square mr-1"></i>Sentimen: ${sig.sentiment}</span>
+              ${sig.converted
+                ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-bold"><i class="fa-solid fa-check mr-1"></i>Telah Dijadikan Tiket Rasmi</span>`
+                : `<button onclick="convertSignalToTicket(${idx})" class="bg-[#0F2B5B] hover:bg-blue-900 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition cursor-pointer"><i class="fa-solid fa-plus mr-1"></i>Jadikan Tiket Aduan Rasmi</button>`
+              }
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function convertSignalToTicket(idx) {
+      const sig = crawlerSignals[idx];
+      if (!sig || sig.converted) return;
+
+      const d = dunDirectory.find(item => item.code === sig.dunCode) || dunDirectory[0];
+      const seqNum = String(tickets.length + 1).padStart(3, '0');
+      const ticketId = `#MLK-${sig.dunCode.replace('.', '')}-2026-${seqNum}`;
+      const nowStr = getFormattedMYT();
+
+      tickets.unshift({
+        id: ticketId,
+        dunCode: sig.dunCode,
+        category: sig.category,
+        priority: 'Segera',
+        location: `Kawasan Komuniti ${d.dun}, Melaka`,
+        title: sig.headline,
+        description: `${sig.snippet} (Dijana secara automatik daripada pemantauan algoritma: ${sig.source}).`,
+        channel: 'TikTok/FB Tular',
+        reporter: `Algoritma SuaraDUN (${sig.source})`,
+        status: 'Diterima / Baru',
+        rating: 0,
+        createdAt: nowStr,
+        timeline: [
+          { date: nowStr, stage: 'Diterima / Baru', note: `Isu tular/berita ditukar menjadi tiket rasmi dan dirujuk kepada ${d.adun}.` }
+        ]
+      });
+
+      sig.converted = true;
+      saveTicketsToStorage();
+      updateExecutiveKPIs();
+      renderTicketsList();
+      renderCrawlerFeed();
+      logToConsole(`[KONVERSI-AI] Isyarat ${sig.id} ditukar menjadi Tiket Rasmi ${ticketId}.`);
+      showToast(`Isyarat berjaya dijadikan Tiket Rasmi ${ticketId}!`, 'success');
+    }
+
+    // Gemini API Search Grounding Integration (with Exponential Backoff)
+    async function callGeminiGroundedSearch(userQuery, systemPrompt) {
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: userQuery }] }],
+        tools: [{ "google_search": {} }],
+        systemInstruction: { parts: [{ text: systemPrompt }] }
+      };
+
+      const delays = [1000, 2000, 4000];
+      for (let attempt = 0; attempt <= 3; attempt++) {
+        try {
+          const res = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) {
+            if (attempt < 3) {
+              await new Promise(r => setTimeout(r, delays[attempt]));
+              continue;
+            }
+            throw new Error(`HTTP ${res.status}`);
+          }
+          const data = await res.json();
+          const candidate = data.candidates?.[0];
+          const text = candidate?.content?.parts?.[0]?.text || '';
+          let sources = [];
+          const gm = candidate?.groundingMetadata;
+          if (gm?.groundingAttributions) {
+            sources = gm.groundingAttributions.map(a => ({ title: a.web?.title, uri: a.web?.uri })).filter(s => s.title && s.uri);
+          } else if (gm?.groundingChunks) {
+            sources = gm.groundingChunks.map(c => ({ title: c.web?.title, uri: c.web?.uri })).filter(s => s.title && s.uri);
+          }
+          return { text, sources, grounded: true };
+        } catch (err) {
+          if (attempt < 3) {
+            await new Promise(r => setTimeout(r, delays[attempt]));
+          } else {
+            return { text: '', sources: [], grounded: false };
+          }
+        }
+      }
+      return { text: '', sources: [], grounded: false };
+    }
+
+    async function runLiveCrawlerScan(isAuto = false) {
+      if (isScanningNow) return;
+      isScanningNow = true;
+
+      const btn = document.getElementById('btn-live-scan');
+      const icon = document.getElementById('live-scan-icon');
+      const textEl = document.getElementById('live-scan-text');
+      const wrap = document.getElementById('scan-progress-wrapper');
+      const msgEl = document.getElementById('scan-stage-msg');
+      const pctEl = document.getElementById('scan-stage-pct');
+      const barEl = document.getElementById('scan-stage-bar');
+
+      btn.disabled = true;
+      icon.classList.add('fa-spin');
+      textEl.textContent = 'Mengimbas Rangkaian...';
+      wrap.classList.remove('hidden');
+
+      const setProg = (pct, msg) => {
+        barEl.style.width = `${pct}%`;
+        pctEl.textContent = `${pct}%`;
+        msgEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-[#CE1126]"></i><span>${msg}</span>`;
+      };
+
+      const mode = isAuto ? 'JADUAL-AUTO' : 'IMBASAN-LIVE';
+      logToConsole(`[${mode}] Memulakan pengimbasan berita & aduan rakyat 28 DUN Melaka...`);
+      setProg(35, 'Mengimbas Melaka Hari Ini, Astro Awani, Buletin TV3 & saluran komuniti DUN...');
+
+      const sysPrompt = "Anda ialah enjin pemantauan isu rakyat & berita tempatan Negeri Melaka (SuaraDUN Melaka 2026). Ringkaskan perkembangan terkini dalam 2 ayat Bahasa Melayu mengenai pentadbiran Negeri Melaka, kerja kebajikan ADUN, atau isu infrastruktur rakyat di Melaka pada November 2026.";
+      const query = "Berita terkini Melaka November 2026 Ab Rauf Yusoh ADUN Melaka kebajikan infrastruktur";
+
+      setProg(70, 'Menjalankan carian masa nyata Gemini AI (Google Search Grounding)...');
+      const aiRes = await callGeminiGroundedSearch(query, sysPrompt);
+
+      syncCycleCount++;
+      const nowStr = getFormattedMYT();
+      document.getElementById('last-sync-time').textContent = nowStr;
+      document.getElementById('sync-cycle-badge').textContent = `Kitaran #${syncCycleCount}`;
+
+      const spotlightDun = dunDirectory[syncCycleCount % dunDirectory.length];
+      const summary = aiRes.text
+        ? aiRes.text.replace(/\*\*/g, '').replace(/\n+/g, ' ').slice(0, 260) + (aiRes.text.length > 260 ? '...' : '')
+        : `Pemantauan berkala mengesahkan gerak kerja khidmat rakyat di ${spotlightDun.code} ${spotlightDun.dun} (${spotlightDun.adun}) berjalan aktif bersama agensi ${spotlightDun.pbt}.`;
+
+      const srcTitle = aiRes.sources?.[0]?.title?.slice(0, 44) || 'Melaka Hari Ini / Astro Awani';
+
+      crawlerSignals.unshift({
+        id: `CRAWL-${Date.now().toString().slice(-4)}`,
+        source: `${srcTitle} (${mode})`,
+        time: nowStr,
+        dunCode: spotlightDun.code,
+        category: 'Kebajikan & Kos Sara Hidup (MeSRa/WRUR)',
+        headline: `Kemas Kini Live ${spotlightDun.code} ${spotlightDun.dun}: Laporan Aktiviti & Pemantauan Rakyat`,
+        snippet: summary,
+        sentiment: 'Positif (80%)',
+        converted: false
+      });
+
+      document.getElementById('nav-signal-count').textContent = crawlerSignals.length;
+      logToConsole(`[SELESAI] Kitaran #${syncCycleCount} lengkap. Rekod baharu ditambah untuk ${spotlightDun.code} ${spotlightDun.dun}.`);
+
+      setProg(100, 'Imbasan selesai! Suapan algoritma dan data 28 DUN telah dikemas kini.');
+      renderCrawlerFeed();
+
+      setTimeout(() => {
+        wrap.classList.add('hidden');
+        btn.disabled = false;
+        icon.classList.remove('fa-spin');
+        textEl.textContent = 'Imbas Berita & Aduan Tular Sekarang';
+        isScanningNow = false;
+        countdownSec = autoIntervalSec;
+        updateCountdownUI();
+      }, 850);
+
+      showToast(`Imbasan langsung selesai! Data baharu direkodkan untuk ${spotlightDun.code} ${spotlightDun.dun}.`, 'success');
+    }
+
+    function initAutonomousConsole() {
+      const box = document.getElementById('autonomous-console-box');
+      const initial = [
+        "[00:40:00] [SISTEM] SuaraDUN Melaka 2026 aktif. 28 DUN & 28 ADUN disegerakkan.",
+        "[00:38:15] [TELEMETRI] Kadar penyelesaian agregat semasa: 78.4% (Purata respons: 14.2 jam).",
+        "[00:35:02] [CRAWLER] Pemantauan Melaka Hari Ini, Astro Awani, TikTok & FB DUN berjalan.",
+        "[00:30:45] [AUDIT] Tiket #MLK-N22-2026-014 (Duyong) disahkan SELESAI dengan rating 5/5.",
+        "[00:25:10] [JADUAL] Pemasa kitaran autonomous ditetapkan pada selang 5 minit."
+      ];
+      box.innerHTML = initial.map(l => `<div class="border-b border-slate-800/80 pb-1.5">${l}</div>`).join('');
+    }
+
+    function logToConsole(msg) {
+      const box = document.getElementById('autonomous-console-box');
+      if (!box) return;
+      const t = new Date().toTimeString().split(' ')[0];
+      const div = document.createElement('div');
+      div.className = 'border-b border-slate-800/80 pb-1.5 text-emerald-300';
+      div.textContent = `[${t}] ${msg}`;
+      box.prepend(div);
+    }
+
+    // -------------------------------------------------------------------------
+    // 14. UTILITIES: MYT FORMATTER, CLIPBOARD & TOASTS
+    // -------------------------------------------------------------------------
+    function getFormattedMYT() {
+      const d = new Date();
+      const months = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis'];
+      return `${String(d.getDate()).padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear()}, ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')} MYT`;
+    }
+
+    function copyTextToClipboard(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast('Maklumat berjaya disalin ke papan keratan (clipboard).', 'success');
+      } catch (e) {
+        showToast('Tidak dapat menyalin teks secara automatik.', 'info');
+      }
+      document.body.removeChild(ta);
+    }
+
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      const border = type === 'success' ? 'border-emerald-500' : 'border-[#F59E0B]';
+      el.className = `pointer-events-auto bg-[#0F2B5B] text-white border-l-4 ${border} px-4 py-3 rounded-xl shadow-lg text-xs font-semibold flex items-center justify-between gap-3`;
+      el.innerHTML = `
+        <span>${msg}</span>
+        <button onclick="this.parentElement.remove()" class="text-blue-200 hover:text-white font-bold cursor-pointer">✕</button>
+      `;
+      container.appendChild(el);
+      setTimeout(() => {
+        if (el.parentElement) el.remove();
+      }, 4200);
+    }
+  </script>
+</body>
+</html>
